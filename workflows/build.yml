@@ -1,25 +1,17 @@
 # SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
 #
 # SPDX-License-Identifier: CC0-1.0
-name: publish-to-github-packages
-on:
-  workflow_run:
-    workflows: [build]
-    types: [completed]
-    branches:
-      - "**"
-      - "!renovate/**"
-      - "!deps/**"
+# SPDX-License-Identifier: MIT
+name: build
+on: [push, workflow_call]
 jobs:
-  publish:
-    if: github.event.workflow_run.conclusion == 'success'
+  build:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 10
     permissions:
       contents: write
-      packages: write
+      packages: read
     env:
-      IS_PUBLISHING: 1
       ORG_GRADLE_PROJECT_ghUsername: ${{ secrets.GITHUB_ACTOR }}
       ORG_GRADLE_PROJECT_ghPassword: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -28,7 +20,6 @@ jobs:
           ref: ${{ github.event.workflow_run.head_branch }}
           filter: "blob:none"
           fetch-depth: 0
-      - run: git remote set-head --auto origin
       - uses: actions/setup-java@v5.2.0
         with:
           distribution: temurin
@@ -36,4 +27,5 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: ./gradlew publishAllPublicationsToGhRepository --scan --no-configuration-cache
+      - run: ./gradlew build --console=plain
+      - uses: gradle/actions/dependency-submission@v5.0.0
