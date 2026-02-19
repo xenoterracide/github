@@ -1,0 +1,123 @@
+lock-version = "1.0"
+created-by = "pip"
+
+[[packages]]
+name = "attrs"
+version = "25.4.0"
+
+[[packages.wheels]]
+name = "attrs-25.4.0-py3-none-any.whl"
+url = "https://files.pythonhosted.org/packages/3a/2a/7cc015f5b9f5db42b7d48157e23356022889fc354a2813c15934b7cb5c0e/attrs-25.4.0-py3-none-any.whl"
+
+[packages.wheels.hashes]
+sha256 = "adcf7e2a1fb3b36ac48d97835bb6d8ade15b8dcce26aba8bf1d14847b57a3373"
+
+[[packages]]
+name = "boolean-py"
+version = "5.0"
+
+[[packages.wheels]]
+name = "boolean_py-5.0-py3-none-any.whl"
+url = "https://files.pythonhosted.org/packages/e5/ca/78d423b324b8d77900030fa59c4aa9054261ef0925631cd2501dd015b7b7/boolean_py-5.0-py3-none-any.whl"
+
+[packages.wheels.hashes]
+sha256 = "ef28a70bd43115208441b53a045d1549e2f0ec6e3d08a9d142cbc41c1938e8d9"
+
+[[packages]]
+name = "charset-normalizer"
+version = "3.4.4"
+
+[[packages.wheels]]
+name = "charset_normalizer-3.4.4-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+url = "https://files.pythonhosted.org/packages/67/ff/f6b948ca32e4f2a4576aa129d8bed61f2e0543bf9f5f2b7fc3758ed005c9/charset_normalizer-3.4.4-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+
+[packages.wheels.hashes]
+sha256 = "ecaae4149d99b1c9e7b88bb03e3221956f68fd6d50be2ef061b2381b61d20838"
+
+[[packages]]
+name = "click"
+version = "8.3.1"
+
+[[packages.wheels]]
+name = "click-8.3.1-py3-none-any.whl"
+url = "https://files.pythonhosted.org/packages/98/78/01c019cdb5d6498122777c1a43056ebb3ebfeef2076d9d026bfe15583b2b/click-8.3.1-py3-none-any.whl"
+
+[packages.wheels.hashes]
+sha256 = "981153a64e25f12d547d3426c367a4857371575ee7ad18df2a6183ab0545b2a6"
+
+[[packages]]
+name = "jinja2"
+version = "3.1.6"
+
+[[packages.wheels]]
+name = "jinja2-3.1.6-py3-none-any.whl"
+url = "https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl"
+
+[packages.wheels.hashes]
+sha256 = "85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67"
+
+[[packages]]
+name = "license-expression"
+version = "30.4.4"
+
+[[packages.wheels]]
+name = "license_expression-30.4.4-py3-none-any.whl"
+url = "https://files.pythonhosted.org/packages/af/40/791891d4c0c4dab4c5e187c17261cedc26285fd41541577f900470a45a4d/license_expression-30.4.4-py3-none-any.whl"
+
+[packages.wheels.hashes]
+sha256 = "421788fdcadb41f049d2dc934ce666626265aeccefddd25e162a26f23bcbf8a4"
+
+[[packages]]
+name = "markupsafe"
+version = "3.0.3"
+
+[[packages.wheels]]
+name = "markupsafe-3.0.3-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+url = "https://files.pythonhosted.org/packages/41/3c/a36c2450754618e62008bf7435ccb0f88053e07592e6028a34776213d877/markupsafe-3.0.3-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl"
+
+[packages.wheels.hashes]
+sha256 = "457a69a9577064c05a97c41f4e65148652db078a3a509039e64d3467b9e7ef97"
+
+[[packages]]
+name = "python-debian"
+version = "1.1.0"
+
+[[packages.wheels]]
+name = "python_debian-1.1.0-py3-none-any.whl"
+url = "https://files.pythonhosted.org/packages/0a/66/af49103279c07900b89b7ebac53111910aa8eb6d898be0b47220036b0b03/python_debian-1.1.0-py3-none-any.whl"
+
+[packages.wheels.hashes]
+sha256 = "3e553b6d0b886272a26649e13106e33c382bcd21c80b09f5c0c81fc7c8c8c743"
+
+[[packages]]
+name = "python-magic"
+version = "0.4.27"
+
+[[packages.wheels]]
+name = "python_magic-0.4.27-py2.py3-none-any.whl"
+url = "https://files.pythonhosted.org/packages/6c/73/9f872cb81fc5c3bb48f7227872c28975f998f3e7c2b1c16e95e6432bbb90/python_magic-0.4.27-py2.py3-none-any.whl"
+
+[packages.wheels.hashes]
+sha256 = "c212960ad306f700aa0d01e5d7a325d20548ff97eb9920dcd29513174f0294d3"
+
+[[packages]]
+name = "reuse"
+version = "6.2.0"
+
+[packages.sdist]
+name = "reuse-6.2.0.tar.gz"
+url = "https://files.pythonhosted.org/packages/05/35/298d9410b3635107ce586725cdfbca4c219c08d77a3511551f5e479a78db/reuse-6.2.0.tar.gz"
+
+[packages.sdist.hashes]
+sha256 = "4feae057a2334c9a513e6933cdb9be819d8b822f3b5b435a36138bd218897d23"
+
+[[packages]]
+name = "tomlkit"
+version = "0.14.0"
+
+[[packages.wheels]]
+name = "tomlkit-0.14.0-py3-none-any.whl"
+url = "https://files.pythonhosted.org/packages/b5/11/87d6d29fb5d237229d67973a6c9e06e048f01cf4994dee194ab0ea841814/tomlkit-0.14.0-py3-none-any.whl"
+
+[packages.wheels.hashes]
+sha256 = "592064ed85b40fa213469f81ac584f67a4f2992509a7c3ea2d632208623a3680"

@@ -4,6 +4,7 @@
 
 # AI
 *.txt
+!requirements.txt
 
 .yarn/*
 !.yarn/patches
