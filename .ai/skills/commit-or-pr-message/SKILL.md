@@ -23,6 +23,7 @@ allowed-tools: bash(git:_) bash(make:_)
 
 - Output plain text only. No markdown fences.
 - First line MUST be a valid Conventional Commit subject.
+- last line MUST be the ticket number extracted from the branch name.
 - Keep the FIRST line <= 72 characters.
 - Use a specific scope when possible.
 - Body:
@@ -36,6 +37,8 @@ allowed-tools: bash(git:_) bash(make:_)
 
 ## Template
 
+```
 <type>(<scope>): <summary>
 
 <body>
+```

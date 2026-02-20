@@ -2,6 +2,15 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
+# AI
+*.txt
+!requirements.txt
+
+# env
+.env*
+!.envrc
+
+# yarn
 .yarn/*
 !.yarn/patches
 !.yarn/plugins

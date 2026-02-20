@@ -45,5 +45,4 @@ module.exports = {
     prettier,
   ]),
   "*.properties": run([`${reuse} ${copyright} ${licenseConfiguration}`, prettier]),
-  "requirements.*": run([`${reuse} ${copyright} ${licenseConfiguration} ${symbol} ${hashComment}`]),
 };
