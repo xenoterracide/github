@@ -4,6 +4,9 @@
 name: update-java
 on:
   workflow_call:
+    secrets:
+      gradle_encryption_key:
+        required: true
 jobs:
   update-java:
     runs-on: ubuntu-24.04
@@ -12,8 +15,8 @@ jobs:
       contents: read
       packages: read
     env:
-      ORG_GRADLE_PROJECT_ghUsername: ${{ secrets.GITHUB_ACTOR }}
-      ORG_GRADLE_PROJECT_ghPassword: ${{ secrets.GITHUB_TOKEN }}
+      ORG_GRADLE_PROJECT_ghUsername: ${{ github.actor }}
+      ORG_GRADLE_PROJECT_ghPassword: ${{ github.token }}
     steps:
       - uses: actions/checkout@v6.0.2
         with:
@@ -27,7 +30,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.1
         with:
           gradle-version: current
-          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          cache-encryption-key: ${{ secrets.gradle_encryption_key }}
       - run: gradle wrapper --write-locks
         name: set new wrapper
       - run: find . -name '*gradle.lockfile' -delete
