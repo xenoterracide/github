@@ -6,6 +6,11 @@
 *.txt
 !requirements.txt
 
+# env
+.env*
+!.envrc
+
+# yarn
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
