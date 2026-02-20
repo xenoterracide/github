@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-python@v6.2.0
         with:
           python-version: "3"
-      - run: pip install -r requirements.txt
+      - run: pip install pyproject.toml --require-hashes
       - run: reuse lint
   format:
     runs-on: ubuntu-24.04
