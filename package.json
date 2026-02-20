@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "devDependencies": {
+    "@github/copilot": "^0.0.412",
     "@prettier/plugin-xml": "^3.4.2",
     "git-conventional-commits": "^2.8.0",
     "lint-staged": "^16.2.1",
