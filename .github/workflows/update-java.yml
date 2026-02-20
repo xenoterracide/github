@@ -7,6 +7,8 @@ on:
     secrets:
       gradle_encryption_key:
         required: true
+      merge_pat:
+        required: true
 jobs:
   update:
     runs-on: ubuntu-24.04
@@ -59,8 +61,8 @@ jobs:
         with:
           title: "chore(deps): java"
           branch: deps/update-java
-          token: ${{ secrets.GH_MERGE_PAT }}
+          token: ${{ secrets.merge_pat }}
       - run: gh pr merge --auto --squash ${{ steps.create_pr.outputs.pull-request-number }}
         if: ${{ steps.create_pr.outputs.pull-request-number != '' }}
         env:
-          GH_TOKEN: ${{ secrets.GH_MERGE_PAT }}
+          GH_TOKEN: ${{ secrets.merge_pat }}
