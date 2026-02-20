@@ -7,7 +7,3 @@ name = "spring-app-commons-tools"
 version = "0.0.0"
 description = "Local tooling dependencies (managed via pip-compile)."
 dependencies = ["reuse>=6"]
-
-[build-system]
-requires = ["setuptools>=61"]
-build-backend = "setuptools.build_meta"
