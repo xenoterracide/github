@@ -30,7 +30,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.1
         with:
           gradle-version: current
-          cache-encryption-key: ${{ inputs.gradle_encryption_key }}
+          cache-encryption-key: ${{ secrets.gradle_encryption_key }}
       - run: gradle wrapper --write-locks
         name: set new wrapper
       - run: find . -name '*gradle.lockfile' -delete
