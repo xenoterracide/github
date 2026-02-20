@@ -1,5 +1,5 @@
 {
-  "name": "shared",
+  "name": "share",
   "packageManager": "yarn@4.12.0",
   "private": true,
   "license": "MIT",
@@ -14,8 +14,7 @@
     "rimraf": "^6.1.2"
   },
   "scripts": {
-    "cleaner": "rimraf ./build */build ./module/*/build ./.gradle",
-    "contributor": "pip install -r requirements.txt --require-hashes && git config core.hooksPath .config/git/hooks",
+    "contributor": "pip install -r requirements.txt --require-hashes && git config core.hooksPath .share/git/hooks",
     "merge": "yarn merge:kimi",
     "merge:copilot": "make merge ENGINE=copilot",
     "merge:junie": "make merge ENGINE=junie",

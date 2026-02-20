@@ -602,9 +602,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shared@workspace:.":
+"share@workspace:.":
   version: 0.0.0-use.local
-  resolution: "shared@workspace:."
+  resolution: "share@workspace:."
   dependencies:
     "@prettier/plugin-xml": "npm:^3.4.2"
     git-conventional-commits: "npm:^2.8.0"
