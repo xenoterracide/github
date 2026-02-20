@@ -46,16 +46,6 @@ jobs:
         name: write locks for most dependencies
       - run: ./gradlew build --write-locks
         name: catch any tasks that are run during build that have defined their own dependencies # like spotless
-  merge:
-    needs: update
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    permissions:
-      contents: read
-      packages: read
-      pull-requests: write
-    steps:
-      - *checkout
       - uses: peter-evans/create-pull-request@v8.1.0
         id: create_pr
         with:
