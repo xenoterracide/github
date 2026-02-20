@@ -4,7 +4,7 @@
 name: format
 on: [push, workflow_call]
 jobs:
-  format:
+  check:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
