@@ -7,3 +7,6 @@ name = "spring-app-commons-tools"
 version = "0.0.0"
 description = "Local tooling dependencies (managed via pip-compile)."
 dependencies = ["reuse>=6"]
+
+[tool.setuptools]
+packages = []

@@ -112,6 +112,12 @@ url = "https://files.pythonhosted.org/packages/05/35/298d9410b3635107ce586725cdf
 sha256 = "4feae057a2334c9a513e6933cdb9be819d8b822f3b5b435a36138bd218897d23"
 
 [[packages]]
+name = "spring-app-commons-tools"
+
+[packages.directory]
+path = "."
+
+[[packages]]
 name = "tomlkit"
 version = "0.14.0"
 

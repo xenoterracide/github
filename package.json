@@ -15,7 +15,7 @@
   },
   "scripts": {
     "cleaner": "rimraf ./build */build ./module/*/build ./.gradle",
-    "contributor": "pip install pyproject.toml --require-hashes && git config core.hooksPath .config/git/hooks",
+    "contributor": "pip install . --require-hashes && git config core.hooksPath .config/git/hooks",
     "merge": "yarn merge:kimi",
     "merge:copilot": "make merge ENGINE=copilot",
     "merge:junie": "make merge ENGINE=junie",
