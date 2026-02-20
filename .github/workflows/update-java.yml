@@ -8,7 +8,7 @@ on:
       gradle_encryption_key:
         required: true
 jobs:
-  update-java:
+  update:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -18,7 +18,8 @@ jobs:
       ORG_GRADLE_PROJECT_ghUsername: ${{ github.actor }}
       ORG_GRADLE_PROJECT_ghPassword: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v6.0.2
+      - &checkout
+        uses: actions/checkout@v6.0.2
         with:
           ref: ${{ github.ref }}
           filter: "blob:none"
@@ -43,3 +44,23 @@ jobs:
         name: write locks for most dependencies
       - run: ./gradlew build --write-locks
         name: catch any tasks that are run during build that have defined their own dependencies # like spotless
+  merge:
+    needs: update
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      packages: read
+      pull-requests: write
+    steps:
+      - *checkout
+      - uses: peter-evans/create-pull-request@v8.1.0
+        id: create_pr
+        with:
+          title: "chore(deps): java"
+          branch: deps/update-java
+          token: ${{ secrets.GH_MERGE_PAT }}
+      - run: gh pr merge --auto --squash ${{ steps.create_pr.outputs.pull-request-number }}
+        if: ${{ steps.create_pr.outputs.pull-request-number != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_MERGE_PAT }}
