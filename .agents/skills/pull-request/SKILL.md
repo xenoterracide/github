@@ -1,6 +1,15 @@
+<!--
+SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+
+SPDX-License-Identifier: CC-BY-NC-SA-4.0
+-->
+
 ---
+
 # SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+
 #
+
 # SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
 name: pull-request
@@ -9,6 +18,7 @@ license: CC-BY-NC-SA-4.0
 metadata:
 author: Caleb Cushing
 allowed-tools: Shell(gh:_) Shell(git:_) Shell(./gradlew:\*) pull_request_read add_issue_comment add_reply_to_pull_request_comment update_pull_request list_pull_requests create_pull_request
+
 ---
 
 - use commit-or-pr-message
@@ -24,6 +34,11 @@ allowed-tools: Shell(gh:_) Shell(git:_) Shell(./gradlew:\*) pull_request_read ad
     - run `./gradlew test` for quick test logic verification
     - run `./gradlew checkstyle` for checkstyle verification
     - run full `./gradlew check` before finalizing or when changes affect multiple modules.
+  - ensure documentation is up to date
+    - review changes to understand what documentation may need updates
+    - update `README.md` if user-facing behavior changes
+    - update `AGENTS.md` if build processes, tools, or agent workflows change
+    - when renaming workflows or changing their interface, update both README and AGENTS.md
   - verify GitHub PR checks pass after pushing
     - use available tools to check workflow status
     - fix any failures before requesting review
@@ -71,6 +86,10 @@ When committing and creating/updating a PR, follow this workflow:
    - Create a new feature branch (if not already on one)
    - Commit changes
    - Push and create a new PR
+
+6. **Before finalizing:**
+   - Review if documentation needs updates (README.md, AGENTS.md)
+   - Ensure PR description accurately reflects all changes including doc updates
 
 ## Creating/Updating PRs
 
