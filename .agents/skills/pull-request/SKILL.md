@@ -6,10 +6,10 @@ description: When you've made code changes that need to be saved, shared, or mer
 # SPDX-License-Identifier: CC-BY-NC-SA-4.0
 ---
 
-- use commit-or-pr-message
+- use commit-message
 - keep the pull request message up to date
   - NOTE: The PR description becomes the commit message when the PR is squash-merged
-  - Follow the commit-or-pr-message format for PR descriptions since they become permanent commit history
+  - Follow the commit-message format for PR descriptions since they become permanent commit history
   - DO NOT use checkboxes (`- [x]`) in PR descriptions - they render poorly in commit messages
   - Use plain bullet lists (`- item`) instead of GitHub task lists
 - files should be committed and pushed

@@ -157,8 +157,6 @@ reuse lint
 - **Node.js**: Yarn PnP with lockfile (`yarn.lock`)
 - **Renovate**: Automated dependency updates configured in `.github/renovate.json5`
 
-
-
 **Renovate Schedule**:
 
 - Gradle major updates: Daily at 04:00 UTC
@@ -201,7 +199,7 @@ reuse lint
 
 The `.agents/skills/` directory contains specialized instructions for AI agents:
 
-- **commit-or-pr-message**: Conventional commit format for PRs and commits
+- **commit-message**: Conventional commit format for PRs and commits
 - **github**: GitHub CLI usage patterns
 - **java**: Java coding preferences (prefer `var`, immutability, package-private visibility)
 - **shell-script**: POSIX-compliant shell scripting with shellcheck
