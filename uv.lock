@@ -115,7 +115,7 @@ wheels = [
 ]
 
 [[package]]
-name = "github"
+name = "github-workflows"
 version = "0.1.0"
 source = { virtual = "." }
 

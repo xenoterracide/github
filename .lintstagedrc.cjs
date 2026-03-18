@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 const prettier = "prettier --cache --ignore-unknown --write";
-const reuse = "reuse annotate";
+const reuse = "uv run --frozen reuse annotate";
 const copyright = "--copyright 'Caleb Cushing' --merge-copyrights";
 const symbol = "--copyright-prefix spdx-string-symbol";
 
