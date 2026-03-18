@@ -1,14 +1,10 @@
 <!--
 SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
 
-SPDX-License-Identifier: CC-BY-NC-4.0
+SPDX-License-Identifier: CC-BY-NC-SA-4.0
 -->
 
 ---
-
-# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
-
-# SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
 name: pull-request
 description: When you've made code changes that need to be saved, shared, or merged. Use for any work that results in modified files - whether fixing a bug, adding a feature, refactoring, debugging, or cleaning up. Handles committing, pushing, and creating/updating pull requests through GitHub.
