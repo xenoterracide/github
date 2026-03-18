@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright © 2024, 2026 Caleb Cushing
 #
 # SPDX-License-Identifier: MIT
-name: license
+name: ktlint
 on: [workflow_call]
 jobs:
   check:
