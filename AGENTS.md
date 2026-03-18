@@ -123,7 +123,7 @@ All commits MUST follow the Conventional Commits specification (`git-conventiona
 
 All PRs must pass these GitHub Actions workflows (defined in `.github/workflows/`):
 
-1. **format** (`format.yml`): Prettier formatting check
+1. **prettier** (`prettier.yml`): Prettier formatting check
    - Runs on Ubuntu 24.04 with Node.js 24
    - Executes `yarn exec prettier --ignore-unknown --check '**'`
 
