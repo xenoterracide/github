@@ -3,14 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 const prettier = "prettier --cache --ignore-unknown --write";
-const reuse = "reuse annotate";
+const reuse = "uv run --frozen --group dev reuse annotate";
 const copyright = "--copyright 'Caleb Cushing' --merge-copyrights";
 const symbol = "--copyright-prefix spdx-string-symbol";
-const hashComment = "--style python";
 
 const licenseCode = "--license 'GPL-3.0-or-later'";
 const licenseConfiguration = "--license 'CC0-1.0' --fallback-dot-license";
-const licenseDocumentation = "--license 'CC-BY-NC-4.0";
+const licenseDocumentation = "--license 'CC-BY-NC-SA-4.0'";
 const licenseScripts = "--license 'MIT' --fallback-dot-license";
 
 const withoutYarn = (files) => files.filter((file) => !file.includes("/.yarn/") && !file.startsWith(".yarn/"));

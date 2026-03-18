@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
+# SPDX-FileCopyrightText: Copyright © 2024, 2026 Caleb Cushing
 #
 # SPDX-License-Identifier: MIT
 name: license
@@ -9,8 +9,5 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6.0.2
-      - uses: actions/setup-python@v6.2.0
-        with:
-          python-version: "3"
-      - run: pip install -r requirements.txt --require-hashes
-      - run: reuse lint
+      - uses: astral-sh/setup-uv@v7.6.0
+      - run: uv run --frozen --group dev reuse lint
