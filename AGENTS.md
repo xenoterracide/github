@@ -54,7 +54,7 @@ uv sync --frozen
   - `prettier-plugin-properties` - Properties files
   - `prettier-plugin-toml` - TOML files
 
-- **Configuration**: `.prettierrc.cjs`
+- **Configuration**: `prettierrc.cjs`
   - `printWidth: 120`
   - `xmlWhitespaceSensitivity: "ignore"`
 
@@ -79,7 +79,7 @@ git config core.hooksPath .share/git/hooks
 
 ### lint-staged Configuration
 
-`.lintstagedrc.cjs` defines per-file-type commands:
+`lintstagedrc.cjs` defines per-file-type commands:
 
 - Code files (TypeScript, Java): REUSE annotate with GPL-3.0-or-later, then Prettier
 - JSON files (except package.json): REUSE annotate with CC0-1.0, then Prettier
