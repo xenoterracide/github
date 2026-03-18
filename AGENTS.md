@@ -1,7 +1,7 @@
 <!--
 SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
 
-SPDX-License-Identifier: CC-BY-NC-4.0
+SPDX-License-Identifier: CC-BY-NC-SA-4.0
 -->
 
 # AGENTS.md
@@ -10,13 +10,16 @@ This file contains essential information for AI coding agents working on this re
 
 ## Project Overview
 
-This is `template-main`, a multi-language template repository maintained by Caleb Cushing. It serves as a foundation for Java-based projects with integrated Node.js tooling, Python utilities, and comprehensive CI/CD automation.
+This is **`github-workflows`**, a repository maintained by Caleb Cushing that provides **reusable GitHub workflows** (and potentially actions in the future) that can be shared across multiple projects. The repository also demonstrates best practices for CI/CD automation, code formatting, and license compliance.
 
 ### Technology Stack
 
-- **Java**: Gradle build system (Kotlin DSL)
 - **Node.js**: 24.14.0 with Yarn 4.12.0 (Plug'n'Play mode)
+  - Workspace configuration in `.share/node/`
+  - Prettier with plugins for multiple file types
 - **Python**: 3.14.3 for tooling (REUSE compliance)
+  - Dependency management via `pyproject.toml` with `uv`
+  - REUSE tool for license compliance
 - **Version Management**: asdf (`.tool-versions`)
 
 ## Build and Test Commands
@@ -24,14 +27,11 @@ This is `template-main`, a multi-language template repository maintained by Cale
 ### Essential Commands
 
 ```bash
+# Setup development environment (installs Python deps, configures git hooks)
+yarn contribute
+
 # Run all tests (MUST pass before merging)
 yarn test
-
-# Build the project
-make build
-
-# Setup development environment
-yarn contribute
 ```
 
 ### Dependency Management
@@ -40,35 +40,8 @@ yarn contribute
 # Update Node.js dependencies
 yarn up
 
-# Install Python dependencies
-pip install -r requirements.txt --require-hashes
-```
-
-### Merge Workflow
-
-```bash
-# Full automated merge workflow (fetch, push, create/update PR, watch CI, merge)
-make merge
-
-# Individual steps
-make merge-head    # Fetch and merge origin/HEAD
-make push          # Push current branch
-make create-pr     # Create or update PR with AI-generated message
-```
-
-### AI-Powered PR Messages
-
-The project supports multiple AI engines for generating PR messages:
-
-```bash
-# Using Kimi (default)
-yarn merge:kimi
-
-# Using Copilot
-yarn merge:copilot
-
-# Using Junie
-yarn merge:junie
+# Sync Python dependencies (uses uv)
+uv sync --frozen
 ```
 
 ## Code Style Guidelines
@@ -95,14 +68,25 @@ yarn merge:junie
 
 Git hooks are located in `.share/git/hooks/`:
 
-- **pre-commit**: Runs `lint-staged` (skipped in CI)
-- **commit-msg**: Validates conventional commit format
+- **pre-commit**: Runs `lint-staged` to apply REUSE license headers and format with Prettier (skipped in CI)
+- **commit-msg**: Validates conventional commit format using `git-conventional-commits`
 
 To enable hooks:
 
 ```bash
 git config core.hooksPath .share/git/hooks
 ```
+
+### lint-staged Configuration
+
+`.lintstagedrc.cjs` defines per-file-type commands:
+
+- Code files (TypeScript, Java): REUSE annotate with GPL-3.0-or-later, then Prettier
+- JSON files (except package.json): REUSE annotate with CC0-1.0, then Prettier
+- package.json: REUSE annotate with MIT, then Prettier
+- Shell scripts: REUSE annotate with MIT (python style), then Prettier
+- Documentation (Markdown, AsciiDoc): REUSE annotate with CC-BY-NC-SA-4.0, then Prettier
+- Config files (XML, YAML, TOML, etc.): REUSE annotate with CC0-1.0, then Prettier
 
 ### Conventional Commits
 
@@ -136,10 +120,20 @@ All commits MUST follow the Conventional Commits specification (`git-conventiona
 
 ### CI Workflows
 
-All PRs must pass these GitHub Actions workflows:
+All PRs must pass these GitHub Actions workflows (defined in `.github/workflows/`):
 
-1. **format** (`.github/workflows/format.yml`): Prettier formatting check
-2. **license** (`.github/workflows/license.yml`): REUSE compliance verification
+1. **format** (`format.yml`): Prettier formatting check
+   - Runs on Ubuntu 24.04 with Node.js 24
+   - Executes `yarn exec prettier --ignore-unknown --check '**'`
+
+2. **license** (`license.yml`): REUSE compliance verification
+   - Runs on Ubuntu 24.04 with Python 3 and uv
+   - Executes `reuse lint`
+
+3. **update-java** (`update-java.yml`): Automated Java dependency updates
+   - Triggered via workflow_call (typically by Renovate)
+   - Updates Gradle wrapper and lockfiles
+   - Creates PR with updates and auto-merges
 
 ### Local Testing
 
@@ -158,9 +152,18 @@ reuse lint
 
 ### Dependency Management
 
-- **Python**: `requirements.txt` uses hash verification (`--require-hashes`)
+- **Python**: Uses `uv` with `pyproject.toml` and `uv.lock` for reproducible builds
 - **Node.js**: Yarn PnP with lockfile (`yarn.lock`)
-- **Renovate**: Automated dependency updates (`.github/renovate.json5`)
+- **Renovate**: Automated dependency updates configured in:
+  - `renovate.json5` (root config)
+  - `.github/renovate.json5` (GitHub-specific config)
+
+**Renovate Schedule**:
+
+- Gradle major updates: Daily at 04:00 UTC
+- Gradle plugins: Weekly Wednesday at 05:00 UTC
+- GitHub Actions: Automatic with automerge
+- npm/asdf devDependencies: Weekly Wednesday at 04:00 UTC
 
 ### Secrets and Environment
 
@@ -172,50 +175,78 @@ reuse lint
 
 ```
 .
-├── .ai/skills/           # AI agent skills (commit messages, Java, GitHub, shell)
-├── .github/workflows/    # CI/CD workflows
-├── .share/               # Shared tooling
-│   ├── bin/             # Custom scripts (pr-message.sh)
-│   ├── git/hooks/       # Git hooks
-│   └── node/merge/      # Merge automation (TypeScript)
+├── .github/
+│   ├── workflows/       # **Reusable GitHub workflows** - main deliverable
+│   │                     (format, license, update-java)
+│   └── renovate.json5   # Renovate configuration for GitHub
+├── .agents/              # AI agent configuration and skills
+│   ├── mcp/             # MCP (Model Context Protocol) config
+│   └── skills/          # AI skills for commit messages, Java, GitHub, etc.
+├── .share/              # Shared tooling and scripts
+│   ├── bin/             # Custom scripts
+│   ├── git/hooks/       # Git hooks (pre-commit, commit-msg)
+│   └── node/            # Node.js workspaces
+│       └── merge/       # Merge automation (TypeScript)
 ├── LICENSES/            # SPDX license texts
 ├── .tool-versions       # asdf version definitions
 ├── git-conventional-commits.yaml  # Commit convention config
-├── renovate.json5       # Renovate bot configuration
-└── REUSE.toml           # REUSE compliance configuration
+├── renovate.json5       # Renovate bot configuration (root)
+├── REUSE.toml           # REUSE compliance configuration
+├── pyproject.toml       # Python project configuration
+└── uv.lock              # Python dependency lockfile
 ```
+
+## AI Skills
+
+The `.agents/skills/` directory contains specialized instructions for AI agents:
+
+- **commit-or-pr-message**: Conventional commit format for PRs and commits
+- **github**: GitHub CLI usage patterns
+- **java**: Java coding preferences (prefer `var`, immutability, package-private visibility)
+- **shell-script**: POSIX-compliant shell scripting with shellcheck
+- **pull-request**: Workflow for creating/updating PRs, handling review comments
+- **use-case-creator**: Cockburn format use case specifications with semantic anchors
+
+Skills use YAML frontmatter with metadata including allowed tools and licensing.
 
 ## Licensing
 
 This project uses REUSE specification for licensing:
 
-- **Source Code**: GPL-3.0-or-later (Java, TypeScript, Shell)
-- **Configuration**: CC0-1.0 (public domain)
-- **Scripts**: MIT
-- **Documentation**: CC-BY-NC-4.0
+| File Type                             | License          | Examples                                |
+| ------------------------------------- | ---------------- | --------------------------------------- |
+| Source Code (Java, TypeScript, Shell) | GPL-3.0-or-later | `.ts`, `.java`, `.sh`                   |
+| Scripts (JS, CJS)                     | MIT              | `*.cjs`                                 |
+| Configuration                         | CC0-1.0          | `*.json`, `*.yaml`, `*.toml`, `*.json5` |
+| Documentation                         | CC-BY-NC-SA-4.0  | `*.md`, `*.adoc`                        |
+| Skills                                | CC-BY-NC-SA-4.0  | `.agents/skills/**/*.md`                |
+
+**Exceptions** (defined in `REUSE.toml`):
+
+- Lockfiles: `*.lockfile`, `yarn.lock`, `uv.lock`
+- Version files: `.tool-versions`, `.python-version`
 
 All files MUST include SPDX headers. Use `reuse annotate` to add license headers:
 
 ```bash
-# For code files
+# For code files (GPL-3.0-or-later)
 reuse annotate --copyright 'Caleb Cushing' --license 'GPL-3.0-or-later' <file>
 
-# For configuration files
+# For scripts (MIT)
+reuse annotate --copyright 'Caleb Cushing' --license 'MIT' --fallback-dot-license <file>
+
+# For configuration files (CC0-1.0)
 reuse annotate --copyright 'Caleb Cushing' --license 'CC0-1.0' --fallback-dot-license <file>
+
+# For documentation (CC-BY-NC-SA-4.0)
+reuse annotate --copyright 'Caleb Cushing' --license 'CC-BY-NC-SA-4.0' <file>
 ```
-
-## AI Skills
-
-The `.ai/skills/` directory contains specialized instructions for AI agents:
-
-- **commit-or-pr-message**: Conventional commit format for PRs
-- **java**: Java coding preferences (prefer `var`, package-private visibility)
-- **github**: GitHub CLI usage patterns
-- **shell-script**: POSIX-compliant shell scripting with shellcheck
 
 ## Important Notes
 
 - Always run `yarn test` before merging
 - Ensure all files have proper SPDX license headers
 - Follow conventional commit format for all commits
-- The `make merge` command handles the full PR lifecycle
+- Use `git config core.hooksPath .share/git/hooks` to enable git hooks
+- PR descriptions become the squash merge commit message - format them accordingly
+- AI attribution should be added as `Co-authored-by` trailers in commit messages
