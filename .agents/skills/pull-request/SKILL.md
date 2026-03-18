@@ -1,24 +1,9 @@
-<!--
-SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
-
-SPDX-License-Identifier: CC-BY-NC-SA-4.0
--->
-
 ---
-
-# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
-
-#
-
-# SPDX-License-Identifier: CC-BY-NC-SA-4.0
-
 name: pull-request
 description: When you've made code changes that need to be saved, shared, or merged. Use for any work that results in modified files - whether fixing a bug, adding a feature, refactoring, debugging, or cleaning up. Handles committing, pushing, and creating/updating pull requests through GitHub.
-license: CC-BY-NC-SA-4.0
-metadata:
-author: Caleb Cushing
-allowed-tools: Shell(gh:_) Shell(git:_) Shell(./gradlew:\*) pull_request_read add_issue_comment add_reply_to_pull_request_comment update_pull_request list_pull_requests create_pull_request
-
+# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+#
+# SPDX-License-Identifier: CC-BY-NC-SA-4.0
 ---
 
 - use commit-or-pr-message
