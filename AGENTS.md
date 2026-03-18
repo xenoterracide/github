@@ -17,10 +17,11 @@ This is **`github-workflows`**, a repository maintained by Caleb Cushing that pr
 - **Node.js**: 24.14.0 with Yarn 4.12.0 (Plug'n'Play mode)
   - Workspace configuration in `.share/node/`
   - Prettier with plugins for multiple file types
-- **Python**: 3.14.3 for tooling (REUSE compliance)
+- **Python**: Managed by `uv` (not asdf)
   - Dependency management via `pyproject.toml` with `uv`
   - REUSE tool for license compliance
-- **Version Management**: asdf (`.tool-versions`)
+  - Python version is defined in `pyproject.toml`, not `.tool-versions`
+- **Version Management**: asdf (`.tool-versions`) for Node.js and other tools
 
 ## Build and Test Commands
 
@@ -224,7 +225,7 @@ This project uses REUSE specification for licensing:
 **Exceptions** (defined in `REUSE.toml`):
 
 - Lockfiles: `*.lockfile`, `yarn.lock`, `uv.lock`
-- Version files: `.tool-versions`, `.python-version`
+- Version files: `.tool-versions`
 
 All files MUST include SPDX headers. Use `reuse annotate` to add license headers:
 
