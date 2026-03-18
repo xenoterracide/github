@@ -12,7 +12,7 @@ Reusable GitHub Actions workflows for CI/CD automation.
 
 | Workflow        | File              | Purpose                                  |
 | --------------- | ----------------- | ---------------------------------------- |
-| **Format**      | `format.yml`      | Prettier formatting check                |
+| **Prettier**    | `prettier.yml`    | Code formatting check (Prettier)         |
 | **License**     | `license.yml`     | REUSE compliance verification            |
 | **Update Java** | `update-java.yml` | Automated Java/Gradle dependency updates |
 
@@ -23,7 +23,7 @@ To use these workflows in your repository, reference them with `uses`:
 ```yaml
 jobs:
   format:
-    uses: xenoterracide/github/.github/workflows/format.yml@develop
+    uses: xenoterracide/github/.github/workflows/prettier.yml@develop
 ```
 
 ## Development
