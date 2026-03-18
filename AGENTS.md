@@ -155,9 +155,9 @@ reuse lint
 
 - **Python**: Uses `uv` with `pyproject.toml` and `uv.lock` for reproducible builds
 - **Node.js**: Yarn PnP with lockfile (`yarn.lock`)
-- **Renovate**: Automated dependency updates configured in:
-  - `renovate.json5` (root config)
-  - `.github/renovate.json5` (GitHub-specific config)
+- **Renovate**: Automated dependency updates configured in `.github/renovate.json5`
+
+
 
 **Renovate Schedule**:
 
