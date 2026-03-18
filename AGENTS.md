@@ -28,7 +28,8 @@ This is **`github-workflows`**, a repository maintained by Caleb Cushing that pr
 ### Essential Commands
 
 ```bash
-# Setup development environment (installs Python deps, configures git hooks)
+# Initial setup (run after cloning or when lockfile changes)
+yarn install --immutable
 yarn contribute
 
 # Run all tests (MUST pass before merging)
@@ -38,6 +39,9 @@ yarn test
 ### Dependency Management
 
 ```bash
+# Install dependencies from lockfile (use after pulling changes that updated yarn.lock)
+yarn install --immutable
+
 # Update Node.js dependencies
 yarn up
 
@@ -65,12 +69,19 @@ uv sync --frozen
   - 2-space indentation
   - Final newline required
 
-### Pre-Commit Hooks
+### Git Hooks
 
 Git hooks are located in `.share/git/hooks/`:
 
+**Pre-commit hooks:**
+
 - **pre-commit**: Runs `lint-staged` to apply REUSE license headers and format with Prettier (skipped in CI)
 - **commit-msg**: Validates conventional commit format using `git-conventional-commits`
+
+**Post-operation hooks:**
+
+- **post-merge**: Auto-runs `yarn install --immutable` and/or `uv sync --frozen` when lockfiles change after `git pull`
+- **post-checkout**: Auto-runs `yarn install --immutable` and/or `uv sync --frozen` when lockfiles differ between branches
 
 To enable hooks:
 

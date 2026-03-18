@@ -301,31 +301,19 @@ async function parseAndWriteMessage(aiOutput: string, titleFile: string, bodyFil
   writeFileSync(bodyFile, body, "utf8");
 }
 
-async function waitForBuild(): Promise<void> {
-  const head = getHead();
-  console.log(`Waiting for workflow 'build' to start on commit ${head}...`);
+async function waitForChecks(): Promise<void> {
+  console.log("Waiting for PR checks to complete...");
 
-  let runId = "";
-  for (let i = 1; i <= 12; i++) {
-    try {
-      runId = run(`gh run list --workflow build --commit ${head} --json databaseId --jq '.[0].databaseId // empty'`);
-      if (runId) break;
-    } catch {}
-    console.log(`Run not found yet, retrying in 5s... (${i}/12)`);
-    await sleep(5000);
-  }
-
-  if (!runId) {
-    console.error("Error: Workflow 'build' did not start within 60 seconds.");
+  try {
+    // gh pr checks --fail-fast --watch will:
+    // - Wait for checks to appear if none exist yet
+    // - Watch all checks and exit with error if any fail
+    // - Exit successfully when all checks pass
+    execFileSync("gh", ["pr", "checks", "--fail-fast", "--watch"], { stdio: "inherit" });
+  } catch {
+    console.error("Error: PR checks failed or timed out.");
     process.exit(1);
   }
-
-  // Stream gh run watch output to console
-  execFileSync("gh", ["run", "watch", runId, "--exit-status"], { stdio: "inherit" });
-}
-
-function sleep(ms: number): Promise<void> {
-  return new Promise((r) => setTimeout(r, ms));
 }
 
 async function main(): Promise<void> {
@@ -370,11 +358,11 @@ async function main(): Promise<void> {
   const hasExistingPR = hasPR();
 
   if (hasExistingPR) {
-    await waitForBuild();
+    await waitForChecks();
     await createOrUpdatePR();
   } else {
     await createOrUpdatePR();
-    await waitForBuild();
+    await waitForChecks();
   }
 
   if (dryRun) {
