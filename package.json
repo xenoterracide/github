@@ -17,7 +17,7 @@
     "rimraf": "^6.1.2"
   },
   "scripts": {
-    "contribute": "pip install -r requirements.txt --require-hashes && git config core.hooksPath .share/git/hooks",
+    "contribute": "uv sync --frozen && git config core.hooksPath .share/git/hooks",
     "merge:copilot": "yarn workspace merge run merge:copilot",
     "merge:junie": "yarn workspace merge run merge:junie",
     "merge:kimi": "yarn workspace merge run merge:kimi"
