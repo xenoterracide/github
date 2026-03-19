@@ -143,7 +143,7 @@ All PRs must pass these GitHub Actions workflows (defined in `.github/workflows/
    - Executes `reuse lint`
 
 3. **update-java** (`update-java.yml`): Automated Java dependency updates
-   - Triggered via workflow_call (typically by Renovate)
+   - Triggered via workflow_call (typically by Dependabot)
    - Updates Gradle wrapper and lockfiles
    - Creates PR with updates and auto-merges
 
@@ -166,14 +166,13 @@ reuse lint
 
 - **Python**: Uses `uv` with `pyproject.toml` and `uv.lock` for reproducible builds
 - **Node.js**: Yarn PnP with lockfile (`yarn.lock`)
-- **Renovate**: Automated dependency updates configured in `.github/renovate.json5`
+- **Dependabot**: Automated dependency updates configured in `.github/dependabot.yml`
 
-**Renovate Schedule**:
+**Dependabot Schedule**:
 
-- Gradle major updates: Daily at 04:00 UTC
-- Gradle plugins: Weekly Wednesday at 05:00 UTC
-- GitHub Actions: Automatic with automerge
-- npm/asdf devDependencies: Weekly Wednesday at 04:00 UTC
+- GitHub Actions: Weekly (grouped)
+- npm devDependencies: Weekly on Wednesday (grouped minor/patch)
+- Python: Weekly (grouped)
 
 ### Secrets and Environment
 
@@ -188,7 +187,7 @@ reuse lint
 ├── .github/
 │   ├── workflows/       # **Reusable GitHub workflows** - main deliverable
 │   │                     (format, license, update-java)
-│   └── renovate.json5   # Renovate configuration for GitHub
+│   └── dependabot.yml   # Dependabot configuration for GitHub
 ├── .agents/              # AI agent configuration and skills
 │   ├── mcp/             # MCP (Model Context Protocol) config
 │   └── skills/          # AI skills for commit messages, Java, GitHub, etc.
@@ -200,7 +199,7 @@ reuse lint
 ├── LICENSES/            # SPDX license texts
 ├── .tool-versions       # asdf version definitions
 ├── git-conventional-commits.yaml  # Commit convention config
-├── renovate.json5       # Renovate bot configuration (root)
+├── dependabot.yml       # Dependabot configuration (root)
 ├── REUSE.toml           # REUSE compliance configuration
 ├── pyproject.toml       # Python project configuration
 └── uv.lock              # Python dependency lockfile
