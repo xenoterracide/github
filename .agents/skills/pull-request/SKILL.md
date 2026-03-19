@@ -1,6 +1,6 @@
 ---
 name: pull-request
-description: When you've made code changes that need to be saved, shared, or merged. Use for any work that results in modified files - whether fixing a bug, adding a feature, refactoring, debugging, or cleaning up. Handles committing, pushing, and creating/updating pull requests through GitHub.
+description: ALWAYS use this skill when ANY files are modified, created, or deleted - including fixing bugs, adding features, refactoring, debugging, updating configs/workflows, or investigating issues that result in code changes. Handles committing, pushing, and creating/updating pull requests through GitHub.
 # SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
 #
 # SPDX-License-Identifier: CC-BY-NC-SA-4.0
