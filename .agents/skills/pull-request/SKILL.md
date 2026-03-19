@@ -76,6 +76,21 @@ When committing and creating/updating a PR, follow this workflow:
    - Review if documentation needs updates (README.md, AGENTS.md)
    - Ensure PR description accurately reflects all changes including doc updates
 
+### Squash Merge Strategy
+
+This repository uses **squash merge** for PRs. This means:
+
+- **Branch history doesn't matter** - All commits get squashed into one on merge
+- **Merge is preferred over rebase** - When updating a branch with changes from develop, use `git merge origin/develop` instead of `git rebase`
+- **Don't create new branches for updates** - If a PR needs changes, commit to the same branch and push
+- **Don't worry about messy commits** - The squash merge cleans everything up
+
+**When to update a branch:**
+
+- If develop has moved forward and you need those changes: `git merge origin/develop`
+- If review feedback requires changes: commit and push to same branch
+- Avoid force push - repository rules may block it, and it's unnecessary with squash merge
+
 ## Creating/Updating PRs
 
 ### PR Title Format
