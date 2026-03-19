@@ -393,6 +393,7 @@ async function main(): Promise<void> {
   }
 
   run("gh pr merge --squash --delete-branch");
+  process.exit(0);
 }
 
 async function createOrUpdatePR(): Promise<void> {
