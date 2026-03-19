@@ -18,6 +18,7 @@
   },
   "scripts": {
     "contribute": "uv sync --frozen && git config core.hooksPath .share/git/hooks",
+    "test": "yarn exec prettier --ignore-unknown --check '**' && uv run reuse lint",
     "merge:copilot": "yarn workspace merge run merge:copilot",
     "merge:junie": "yarn workspace merge run merge:junie",
     "merge:kimi": "yarn workspace merge run merge:kimi"
