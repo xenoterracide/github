@@ -4,6 +4,12 @@
 name: update-java
 on:
   workflow_call:
+    inputs:
+      java-version:
+        type: number
+        description: "Java version to use"
+        required: true
+        default: 25
     secrets:
       gradle_encryption_key:
         required: true
@@ -20,8 +26,7 @@ jobs:
       ORG_GRADLE_PROJECT_ghUsername: ${{ github.actor }}
       ORG_GRADLE_PROJECT_ghPassword: ${{ github.token }}
     steps:
-      - &checkout
-        uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v6.0.2
         with:
           ref: ${{ github.ref }}
           filter: "blob:none"
@@ -29,7 +34,7 @@ jobs:
       - uses: actions/setup-java@v5.2.0
         with:
           distribution: temurin
-          java-version: 21
+          java-version: ${{ inputs.java-version }}
       - uses: gradle/actions/setup-gradle@v5.0.2
         with:
           gradle-version: current
