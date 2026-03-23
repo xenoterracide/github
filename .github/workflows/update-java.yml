@@ -8,12 +8,11 @@ on:
       java-version:
         type: number
         description: "Java version to use"
-        required: true
         default: 25
     secrets:
-      gradle_encryption_key:
+      GRADLE_ENCRYPTION_KEY:
         required: true
-      merge_pat:
+      MERGE_PAT:
         required: true
 jobs:
   update:
@@ -38,7 +37,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6.0.0
         with:
           gradle-version: current
-          cache-encryption-key: ${{ secrets.gradle_encryption_key }}
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - run: gradle wrapper --write-locks
         name: set new wrapper
       - run: find . -name '*gradle.lockfile' -delete
@@ -56,8 +55,8 @@ jobs:
         with:
           title: "chore(deps): java"
           branch: deps/update-java
-          token: ${{ secrets.merge_pat }}
+          token: ${{ secrets.MERGE_PAT }}
       - run: gh pr merge --auto --squash ${{ steps.create_pr.outputs.pull-request-number }}
         if: ${{ steps.create_pr.outputs.pull-request-number != '' }}
         env:
-          GH_TOKEN: ${{ secrets.merge_pat }}
+          GH_TOKEN: ${{ secrets.MERGE_PAT }}
