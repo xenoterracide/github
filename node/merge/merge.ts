@@ -344,7 +344,7 @@ async function waitForChecks(): Promise<void> {
     // - Wait for checks to appear if none exist yet
     // - Watch all checks and exit with error if any fail
     // - Exit successfully when all checks pass
-    execFileSync("gh", ["pr", "checks", "--fail-fast", "--watch"], { stdio: "inherit" });
+    execFileSync("gh", ["pr", "checks", "--fail-fast", "--watch"], { stdio: "inherit", cwd: MAIN_REPO_ROOT });
   } catch {
     console.error("Error: PR checks failed or timed out.");
     process.exit(1);
