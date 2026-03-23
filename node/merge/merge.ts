@@ -11,13 +11,48 @@ import { join } from "path";
 
 const ENGINE = process.env.ENGINE || "kimi";
 
+/**
+ * Find the main git repository root (not a submodule).
+ * This is needed because the script may run from within a submodule.
+ */
+function findMainRepoRoot(): string {
+  // Walk up to find the top-level git directory that is not a submodule
+  let currentDir = process.cwd();
+  while (currentDir !== "/") {
+    const gitDir = join(currentDir, ".git");
+    if (existsSync(gitDir)) {
+      // Check if this is a submodule by looking for .gitmodules in parent
+      const parentDir = join(currentDir, "..");
+      const parentGitmodules = join(parentDir, ".gitmodules");
+      // If parent has .gitmodules, we're likely in a submodule, go up
+      if (existsSync(parentGitmodules)) {
+        currentDir = parentDir;
+        continue;
+      }
+      // Found the main repo root
+      return currentDir;
+    }
+    currentDir = join(currentDir, "..");
+  }
+  // Fallback: use git rev-parse to find the top-level
+  return execSync("git rev-parse --show-toplevel", { encoding: "utf8" }).trim();
+}
+
+const MAIN_REPO_ROOT = findMainRepoRoot();
+
 function run(cmd: string, opts?: { cwd?: string; env?: Record<string, string> }): string {
-  return execSync(cmd, { encoding: "utf8", cwd: opts?.cwd, env: { ...process.env, ...opts?.env } }).trim();
+  // Default to main repo root for git commands if no cwd specified
+  const isGitCommand = cmd.startsWith("git ") || cmd.startsWith("gh ");
+  const cwd = opts?.cwd ?? (isGitCommand ? MAIN_REPO_ROOT : undefined);
+  return execSync(cmd, { encoding: "utf8", cwd, env: { ...process.env, ...opts?.env } }).trim();
 }
 
 function runSilent(cmd: string, args: string[], opts?: { cwd?: string }): string {
   try {
-    return execFileSync(cmd, args, { encoding: "utf8", cwd: opts?.cwd }).trim();
+    // Default to main repo root for git commands if no cwd specified
+    const isGitCommand = cmd === "git" || cmd === "gh";
+    const cwd = opts?.cwd ?? (isGitCommand ? MAIN_REPO_ROOT : undefined);
+    return execFileSync(cmd, args, { encoding: "utf8", cwd }).trim();
   } catch {
     return "";
   }
