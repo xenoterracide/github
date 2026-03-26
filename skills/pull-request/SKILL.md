@@ -44,10 +44,10 @@ description: ALWAYS use this skill when ANY files are modified, created, or dele
 
 When committing and creating/updating a PR, follow this workflow:
 
-1. **Check current branch status** - Run `git status` and `gh pr view --json number,url,headRefName,state` to determine:
-   - What branch you're currently on
-   - Whether a PR already exists for this branch
-   - Whether the PR is OPEN, CLOSED, or MERGED
+1. **Check current branch status** - Use MCP tools (preferred) or `gh` CLI:
+   - Use `pull_request_read` or `list_pull_requests` MCP tools to check PR state
+   - Or run `git status` and `gh pr view --json number,url,headRefName,state`
+   - Determine: current branch, existing PR status (OPEN/CLOSED/MERGED)
 
 2. **Handle closed/merged PRs:**
    - If the current branch has a CLOSED or MERGED PR, delete the local branch:
@@ -124,59 +124,39 @@ gh pr create --title "$TITLE" --body "- Bullet point describing change 1
 gh pr edit --title "$TITLE" --body "- Updated bullet points"
 ```
 
-### PR Body Format
+### PR Body Format (MANDATORY)
 
-- Short summary paragraph (optional)
-- Bullet points explaining main changes
-- Each bullet describes one complete logical change
-- Explain WHAT and WHY
-- Wrap lines to <= 72 characters
+PR description MUST include a body explaining the change:
+
+1. **Why paragraph (REQUIRED)** - Start with a paragraph explaining WHY this change exists:
+   - What problem does this solve?
+   - What motivated this change?
+   - Why is this the right approach?
+   - This context is crucial for code review and future maintainers
+
+2. **What bullets** - Follow with bullet points describing WHAT changed:
+   - Each bullet describes one complete logical change
+   - Be specific about what was modified
+   - Reference specific files or components if helpful
+
+- Wrap all lines to <= 72 characters
+- Use plain bullet lists (`- item`) not checkboxes
 
 ## Handling Review Comments
 
 When addressing review comments on a PR:
 
 1. **Pull first** - Always pull the latest changes before starting
-2. **Query unresolved comments** - Use GraphQL to get only unresolved review threads:
-   ```bash
-   gh api graphql -f query='
-   query {
-     repository(owner: "OWNER", name: "REPO") {
-       pullRequest(number: N) {
-         reviewThreads(first: 100) {
-           nodes {
-             id
-             isResolved
-             comments(first: 1) {
-               nodes {
-                 id
-                 body
-                 path
-                 originalLine
-               }
-             }
-           }
-         }
-       }
-     }
-   }' --jq '.data.repository.pullRequest.reviewThreads.nodes | map(select(.isResolved == false))'
-   ```
-3. **Process unresolved** - The jq filter already returns only threads where `isResolved: false`
-4. **Reply to each comment** - After making changes, reply to each review comment:
-   - Fixed: `Fixed in commit SHA`
-   - Not an issue: `Not applicable: [reason]`
-   - Question: `Question: [clarification needed]`
-   - Use `gh pr comment <number> --reply-to <comment-id>` if available, or quote the comment
-5. **Verify fixes** - Confirm changes address the current code state
+2. **Query unresolved comments** - Use MCP tools or GraphQL (see `github` skill for GraphQL examples):
+   - Query review threads with `isResolved` field to find unresolved comments
+   - Get thread IDs for replying
+3. **Reply to each comment** - Use MCP tools or GraphQL mutation `addPullRequestReviewThreadReply` (see `github` skill):
+   - Fixed: "Fixed in commit SHA"
+   - Not an issue: "Not applicable: [reason]"
+   - Question: "Question: [clarification needed]"
+4. **Verify fixes** - Confirm changes address the current code state
 
-## Important Note on Comment APIs
-
-The GitHub REST API (`/repos/{owner}/{repo}/pulls/{pull_number}/comments`) does NOT expose the "resolved" state of review comments. The resolution state is only available via:
-
-- GraphQL API (`reviewThreads.isResolved`)
-- GitHub Web UI
-
-Always use GraphQL to check which review threads are actually unresolved.
+**Note:** REST API doesn't expose resolved state - use GraphQL (`reviewThreads.isResolved`) or MCP tools to check unresolved comments.
 
 ## AI Attribution
 
