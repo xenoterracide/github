@@ -1,11 +1,8 @@
 {
-  "name": "github",
+  "name": "@xenoterracide/github",
   "packageManager": "yarn@4.13.0",
   "private": true,
   "license": "MIT",
-  "workspaces": [
-    ".share/node/*"
-  ],
   "devDependencies": {
     "@prettier/plugin-xml": "^3.4.2",
     "git-conventional-commits": "^2.8.0",
@@ -18,8 +15,16 @@
   },
   "scripts": {
     "contribute": "uv sync --frozen && git config core.hooksPath .share/git/hooks",
-    "merge:copilot": "yarn workspace merge run merge:copilot",
-    "merge:junie": "yarn workspace merge run merge:junie",
-    "merge:kimi": "yarn workspace merge run merge:kimi"
+    "lint": "yarn lint:prettier && yarn lint:reuse",
+    "lint:prettier": "prettier --ignore-unknown --cache --check '**'",
+    "lint:reuse": "yarn reuse lint",
+    "merge:copilot": "cd .share && yarn workspace merge run merge:copilot",
+    "merge:junie": "cd .share && yarn workspace merge run merge:junie",
+    "merge:kimi": "cd .share && yarn workspace merge run merge:kimi",
+    "precontribute": "yarn setup:corepack && yarn setup:yarn",
+    "reuse": "uv run --frozen --group dev reuse",
+    "setup:corepack": "npm install -g corepack && corepack enable",
+    "setup:yarn": "yarn install --immutable && cd .share && yarn install --immutable",
+    "test": "yarn workspaces foreach --all run test"
   }
 }

@@ -74,6 +74,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xenoterracide/github@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@xenoterracide/github@workspace:."
+  dependencies:
+    "@prettier/plugin-xml": "npm:^3.4.2"
+    git-conventional-commits: "npm:^2.8.0"
+    lint-staged: "npm:^16.2.1"
+    prettier: "npm:^3.6.2"
+    prettier-plugin-java: "npm:^2.7.5"
+    prettier-plugin-properties: "npm:^0.3.0"
+    prettier-plugin-toml: "npm:^2.0.6"
+    rimraf: "npm:^6.1.2"
+  languageName: unknown
+  linkType: soft
+
 "@xml-tools/parser@npm:^1.0.11":
   version: 1.0.11
   resolution: "@xml-tools/parser@npm:1.0.11"
@@ -299,21 +314,6 @@ __metadata:
   checksum: 10c0/15e2bd7e6aaeb4697a351e66f66d51f62badbb26a8c356fae5475715d49c6fa0e1672e42bebf11416215317c0ca52eae9ce1c8b94ee8cb59819f76393c1b665e
   languageName: node
   linkType: hard
-
-"github@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "github@workspace:."
-  dependencies:
-    "@prettier/plugin-xml": "npm:^3.4.2"
-    git-conventional-commits: "npm:^2.8.0"
-    lint-staged: "npm:^16.2.1"
-    prettier: "npm:^3.6.2"
-    prettier-plugin-java: "npm:^2.7.5"
-    prettier-plugin-properties: "npm:^0.3.0"
-    prettier-plugin-toml: "npm:^2.0.6"
-    rimraf: "npm:^6.1.2"
-  languageName: unknown
-  linkType: soft
 
 "glob@npm:^13.0.3":
   version: 13.0.6
