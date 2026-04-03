@@ -1,10 +1,26 @@
 ---
 name: pull-request
-description: ALWAYS use this skill when ANY files are modified, created, or deleted - including fixing bugs, adding features, refactoring, debugging, updating configs/workflows, or investigating issues that result in code changes. Handles committing, pushing, and creating/updating pull requests through GitHub.
-# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
-#
-# SPDX-License-Identifier: CC-BY-NC-SA-4.0
+description: |
+  ALWAYS use when files are modified, created, or deleted - including bugs,
+  features, refactoring, or config changes. Handles committing, pushing, and
+  PR management through GitHub.
+
+  Use when: making file changes, adding features, fixing bugs, refactoring,
+  updating docs or configs. Must be used with domain-specific skills.
 ---
+
+<!--
+SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+
+SPDX-License-Identifier: CC-BY-NC-SA-4.0
+-->
+
+**CRITICAL: This skill must ALWAYS be used whenever files are created, modified, or deleted, regardless of what other skills are also being applied.**
+
+**CRITICAL: Apply general-programming rules** - All code changes must follow the
+rules in `general-programming` skill (error handling, tests, immutability,
+libraries, code quality). Review your own code against these rules before
+submitting.
 
 - use commit-message
 - keep the pull request message up to date
@@ -75,6 +91,32 @@ When committing and creating/updating a PR, follow this workflow:
 6. **Before finalizing:**
    - Review if documentation needs updates (README.md, AGENTS.md)
    - Ensure PR description accurately reflects all changes including doc updates
+
+### Self-Review Before Submitting
+
+Before creating or updating a PR, review your own code:
+
+1. **Run quality checks locally:**
+   - Tests pass with adequate coverage
+   - Static analysis passes (Checkstyle, SpotBugs, Error Prone, etc.)
+   - Code formatting is correct
+
+2. **Review against general-programming rules:**
+   - Error handling is explicit (no silent catches)
+   - Immutability preferred where appropriate
+   - Existing libraries used instead of reinventing
+   - Code quality standards met (Rule 7)
+
+3. **Check for obvious issues:**
+   - No commented-out code or debug prints
+   - No TODOs without ticket references
+   - No suppressions without justification
+
+4. **Review the diff:**
+   - Would you approve this if someone else wrote it?
+   - Is the "why" clear from comments and documentation?
+
+**Fix issues yourself before requesting human review.**
 
 ### Squash Merge Strategy
 
@@ -195,3 +237,9 @@ Use your AI identity:
 | Claude  | `Claude`         | `claude@anthropic.localhost` |
 
 Place the Co-authored-by trailer at the end of the commit message body, after the description.
+
+---
+
+SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+
+SPDX-License-Identifier: CC-BY-NC-SA-4.0
