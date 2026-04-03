@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+#
+# SPDX-License-Identifier: MIT
+
+name: maven
+on:
+  workflow_call:
+    inputs:
+      java-version:
+        type: number
+        description: "Java version to use"
+        default: 25
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: write
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - uses: actions/setup-java@v5.2.0
+        with:
+          distribution: temurin
+          java-version: ${{ inputs.java-version }}
+          cache: maven
+      - run: ./mvnw verify --batch-mode --fail-at-end
+        env:
+          GH_USERNAME: ${{ github.actor }}
+          GH_TOKEN: ${{ github.token }}
