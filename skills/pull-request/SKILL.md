@@ -65,30 +65,37 @@ When committing and creating/updating a PR, follow this workflow:
    - Or run `git status` and `gh pr view --json number,url,headRefName,state`
    - Determine: current branch, existing PR status (OPEN/CLOSED/MERGED)
 
-2. **Handle closed/merged PRs:**
+2. **Fetch and determine default branch:**
+   - Run `git fetch --all --prune` to update remotes and prune stale branches
+   - Get the default branch from `origin/HEAD`:
+     ```bash
+     DEFAULT_BRANCH=$(git rev-parse --abbrev-ref origin/HEAD | sed 's@^origin/@@')
+     ```
+
+3. **Handle closed/merged PRs:**
    - If the current branch has a CLOSED or MERGED PR, delete the local branch:
-     - `git checkout develop` (the default HEAD branch)
+     - `git checkout "$DEFAULT_BRANCH"`
      - `git branch -D <old-branch-name>`
    - Then create a new branch off the updated HEAD for new work
 
-3. **Pull latest changes before starting work:**
-   - Run `git pull origin develop` to get the latest changes
+4. **Pull latest changes before starting work:**
+   - Run `git pull origin "$DEFAULT_BRANCH"` to get the latest changes
    - This ensures you're working on the current state and not outdated code
    - This also ensures you don't address review comments that are already resolved
 
-4. **If already on a feature branch with an existing OPEN PR:**
+5. **If already on a feature branch with an existing OPEN PR:**
    - Do NOT create a new branch
    - Pull latest changes first
    - Commit changes to the current branch
    - Push to update the existing PR
    - Update PR description/title if needed using `gh pr edit`
 
-5. **If on develop or no PR exists for current branch:**
+6. **If on the default branch or no PR exists for current branch:**
    - Create a new feature branch (if not already on one)
    - Commit changes
    - Push and create a new PR
 
-6. **Before finalizing:**
+7. **Before finalizing:**
    - Review if documentation needs updates (README.md, AGENTS.md)
    - Ensure PR description accurately reflects all changes including doc updates
 
@@ -146,6 +153,23 @@ Follow conventional commit format for PR titles (they become the squash merge co
 - Use commit types from `git-conventional-commits.yaml` (feat, fix, docs, etc.)
 - Keep title <= 72 characters
 - Use specific scope when possible
+
+### Commit Message Rules
+
+When writing commit messages or PR descriptions:
+
+- Output plain text only. No markdown fences.
+- First line MUST be a valid Conventional Commit subject.
+- Keep the FIRST line <= 72 characters.
+- Use a specific scope when possible.
+- Body (MANDATORY - must explain WHY):
+  - Start with a paragraph explaining WHY this change is being made
+    - The "why" provides context for future readers
+    - Explain the problem, motivation, or rationale
+  - Follow with bullet points explaining the main changes (WHAT)
+  - Each bullet must describe one complete logical change
+  - Do not split a single idea across multiple bullets
+  - Wrap lines to <= 72 chars
 
 ### Creating a New PR
 
