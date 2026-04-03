@@ -11,7 +11,7 @@ on:
         description: "Java version to use"
         default: 25
 jobs:
-  build:
+  maven:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
