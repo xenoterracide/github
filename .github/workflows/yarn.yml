@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+#
+# SPDX-License-Identifier: MIT
+
+name: yarn
+on:
+  push:
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: &checkout actions/checkout@v6.0.2
+      - uses: &node-corepack actions/setup-node@v6.3.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: &corepack corepack enable
+      - uses: &node-yarn actions/setup-node@v6.3.0
+        with:
+          node-version: 24
+          cache: "yarn"
+      - run: &install yarn install --immutable --inline-builds --check-resolutions
+      - run: yarn test
+  eslint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: *checkout
+      - uses: *node-corepack
+      - run: *corepack
+      - uses: *node-yarn
+        with:
+          node-version: 24
+          cache: "yarn"
+      - run: &install
+      - run: yarn exec eslint .
+  prettier:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: *checkout
+      - uses: *node-corepack
+      - run: *corepack
+      - uses: *node-yarn
+        with:
+          node-version: 24
+          cache: "yarn"
+      - run: &install
+      - run: yarn exec prettier --ignore-unknown --check '**'
