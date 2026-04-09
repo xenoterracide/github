@@ -1,12 +1,8 @@
 ---
 name: java
 description: |
-  Write code in the Java programming language.
-
-  ALWAYS apply this skill when:
-  - Creating or modifying `.java` source files
-  - Working with Java classes, interfaces, records, or enums
-  - Writing or refactoring Java code of any kind
+  Write code in the Java programming language. ALWAYS apply when creating
+  or modifying `.java` source files.
 ---
 
 <!--
@@ -39,12 +35,12 @@ All types are **non-null by default**. You must explicitly mark nullable types:
 ```java
 // GOOD - parameter is non-null (default), return is nullable
 public @Nullable User findById(String id) {
-    // ... may return null if not found
+  // ... may return null if not found
 }
 
 // GOOD - both parameters nullable
 public void merge(@Nullable User first, @Nullable User second) {
-    // ...
+  // ...
 }
 ```
 
@@ -107,8 +103,8 @@ For framework initialization methods (e.g., `@PostConstruct`, `@BeforeEach`), us
 @Initializer
 @PostConstruct
 public void init() {
-    // NullAway understands this method initializes fields
-    this.service = createService();
+  // NullAway understands this method initializes fields
+  this.service = createService();
 }
 ```
 
@@ -206,6 +202,7 @@ Avoid `internal` packages. Package-private visibility should be preferred to hid
 Prefer builder pattern over complex constructors with immutables library `@Builder` and a static factory. Also use `@Data` for generating type-safe field constants for testing.
 
 Required dependencies:
+
 - `org.immutables:value-annotations` (compile-only)
 - `org.immutables:datatype` (compile-only, for `@Data`)
 
@@ -268,8 +265,16 @@ assertThat(user)
     .returns(30, User::getAge);
 
 // BEST - hasFieldOrPropertyWithValue with Immutables datatype for fields
-// Immutables generates type-safe string constants: User_.NAME_
-// (accessed via Datatypes_User.User_.NAME_ or just User_.NAME_ if imported)
+// The @Data annotation generates a class named Datatypes_<Type> containing
+// type-safe field name constants. For a User record, this generates Datatypes_User
+// with constants like User_.NAME_ and User_.AGE_.
+//
+// Import the constants for clean usage:
+//   import static com.example.Datatypes_User.User_;
+//
+// This method is preferred because when assertions fail, the error message
+// includes the field name (e.g., "expected field/property 'name' value"),
+// unlike approaches that result in unhelpful messages like "expected:<true> but was:<false>"
 assertThat(user)
     .hasFieldOrPropertyWithValue(User_.NAME_, "Alice")
     .hasFieldOrPropertyWithValue(User_.AGE_, 30);

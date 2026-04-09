@@ -1,12 +1,10 @@
 ---
 name: pull-request
 description: |
-  ALWAYS use when files are modified, created, or deleted - including bugs,
-  features, refactoring, or config changes. Handles committing, pushing, and
-  PR management through GitHub.
-
-  Use when: making file changes, adding features, fixing bugs, refactoring,
-  updating docs or configs. Must be used with domain-specific skills.
+  ALWAYS use when files are modified, created, or deleted — including bugs,
+  features, refactoring, or config changes. Also use when addressing PR review
+  comments or feedback. Handles committing, pushing, and PR management through
+  GitHub.
 ---
 
 <!--
@@ -15,19 +13,14 @@ SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
 SPDX-License-Identifier: CC-BY-NC-SA-4.0
 -->
 
-**CRITICAL: This skill must ALWAYS be used whenever files are created, modified, or deleted, regardless of what other skills are also being applied.**
+# Pull Request
 
-**CRITICAL: Apply general-programming rules** - All code changes must follow the
-rules in `general-programming` skill (error handling, tests, immutability,
-libraries, code quality). Review your own code against these rules before
-submitting.
+**This skill applies whenever files are created, modified, or deleted.**
 
-- use commit-message
-- keep the pull request message up to date
-  - NOTE: The PR description becomes the commit message when the PR is squash-merged
-  - Follow the commit-message format for PR descriptions since they become permanent commit history
-  - DO NOT use checkboxes (`- [x]`) in PR descriptions - they render poorly in commit messages
-  - Use plain bullet lists (`- item`) instead of GitHub task lists
+- Apply `coding-standards` rules — review your code against them before submitting
+- Use `commit-message` skill for all commit messages and PR descriptions
+- Keep the PR description up to date (it becomes the squash-merge commit message)
+  - Do NOT use checkboxes (`- [x]`) — use plain bullet lists (`- item`)
 - files should be committed and pushed
   - ensure code compiles and tests pass before committing
     - run relevant, specific tests first for quick feedback
@@ -43,8 +36,8 @@ submitting.
   - verify GitHub PR checks pass after pushing
     - use available tools to check workflow status
     - fix any failures before requesting review
-    - if Github checks fail after pushing, fix before requesting review
-- git push --force is not allowed
+    - if GitHub checks fail after pushing, fix before requesting review
+- **NEVER force push.** Force pushes (`--force` and `--force-with-lease`) are **blocked by repository rules** and will always fail. If a push is rejected, do not attempt force push — create a new commit instead.
 - must be synchronized with HEAD branch using a merge strategy
   - it is easier to delete and regenerate lockfiles than merge them
 - respond to ALL pr comments.
@@ -58,63 +51,45 @@ submitting.
 
 ## Workflow
 
+**NEVER update MERGED PRs.** If a PR is merged, create a new branch for any follow-up work.
+
 When committing and creating/updating a PR, follow this workflow:
 
-1. **Check current branch status** - Run `git status` and `gh pr view --json number,url,headRefName,state` to determine:
-   - What branch you're currently on
-   - Whether a PR already exists for this branch
-   - Whether the PR is OPEN, CLOSED, or MERGED
+1. **Check current branch status** - Use MCP tools (preferred) or `gh` CLI:
+   - Use `pull_request_read` or `list_pull_requests` MCP tools to check PR state
+   - Or run `git status` and `gh pr view --json number,url,headRefName,state`
+   - Determine: current branch, existing PR status (OPEN/CLOSED/MERGED)
 
-2. **Handle closed/merged PRs:**
-   - If the current branch has a CLOSED or MERGED PR, delete the local branch:
-     - `git checkout develop` (the default HEAD branch)
-     - `git branch -D <old-branch-name>`
-   - Then create a new branch off the updated HEAD for new work
+2. **Ensure branch is current** — see `session-init` for full startup checks:
+   - Fetch and prune: `git fetch --all --prune`
+   - If the current branch has a CLOSED or MERGED PR, switch to the default branch and create a new one
+   - Pull latest changes before starting work
 
-3. **Pull latest changes before starting work:**
-   - Run `git pull origin develop` to get the latest changes
-   - This ensures you're working on the current state and not outdated code
-   - This also ensures you don't address review comments that are already resolved
-
-4. **If already on a feature branch with an existing OPEN PR:**
+3. **If already on a feature branch with an existing OPEN PR:**
    - Do NOT create a new branch
    - Pull latest changes first
    - Commit changes to the current branch
    - Push to update the existing PR
    - Update PR description/title if needed using `gh pr edit`
 
-5. **If on develop or no PR exists for current branch:**
+4. **If on the default branch or no PR exists for current branch:**
    - Create a new feature branch (if not already on one)
    - Commit changes
    - Push and create a new PR
 
-6. **Before finalizing:**
+5. **Before finalizing:**
    - Review if documentation needs updates (README.md, AGENTS.md)
    - Ensure PR description accurately reflects all changes including doc updates
 
 ### Self-Review Before Submitting
 
-Before creating or updating a PR, review your own code:
+Before creating or updating a PR:
 
-1. **Run quality checks locally:**
-   - Tests pass with adequate coverage
-   - Static analysis passes (Checkstyle, SpotBugs, Error Prone, etc.)
-   - Code formatting is correct
+1. Run quality checks locally (tests, static analysis, formatting)
+2. Review your own diff — would you approve this if someone else wrote it?
+3. Check for obvious issues (debug prints, TODOs without tickets, unjustified suppressions)
 
-2. **Review against general-programming rules:**
-   - Error handling is explicit (no silent catches)
-   - Immutability preferred where appropriate
-   - Existing libraries used instead of reinventing
-   - Code quality standards met (Rule 7)
-
-3. **Check for obvious issues:**
-   - No commented-out code or debug prints
-   - No TODOs without ticket references
-   - No suppressions without justification
-
-4. **Review the diff:**
-   - Would you approve this if someone else wrote it?
-   - Is the "why" clear from comments and documentation?
+See `coding-standards` (Rule 5: Code Quality Standards) for the full checklist.
 
 **Fix issues yourself before requesting human review.**
 
@@ -131,7 +106,7 @@ This repository uses **squash merge** for PRs. This means:
 
 - If develop has moved forward and you need those changes: `git merge origin/develop`
 - If review feedback requires changes: commit and push to same branch
-- Avoid force push - repository rules may block it, and it's unnecessary with squash merge
+- Never force push (including `--force-with-lease`) — it's unnecessary with squash merge and may be blocked by repository rules
 
 ## Creating/Updating PRs
 
@@ -146,6 +121,12 @@ Follow conventional commit format for PR titles (they become the squash merge co
 - Use commit types from `git-conventional-commits.yaml` (feat, fix, docs, etc.)
 - Keep title <= 72 characters
 - Use specific scope when possible
+
+### Commit Message and PR Body Format
+
+Follow the `commit-message` skill for commit message format, PR body structure,
+and the mandatory "why" paragraph. PR descriptions become permanent commit
+history via squash merge.
 
 ### Creating a New PR
 
@@ -166,59 +147,21 @@ gh pr create --title "$TITLE" --body "- Bullet point describing change 1
 gh pr edit --title "$TITLE" --body "- Updated bullet points"
 ```
 
-### PR Body Format
-
-- Short summary paragraph (optional)
-- Bullet points explaining main changes
-- Each bullet describes one complete logical change
-- Explain WHAT and WHY
-- Wrap lines to <= 72 characters
-
 ## Handling Review Comments
 
 When addressing review comments on a PR:
 
 1. **Pull first** - Always pull the latest changes before starting
-2. **Query unresolved comments** - Use GraphQL to get only unresolved review threads:
-   ```bash
-   gh api graphql -f query='
-   query {
-     repository(owner: "OWNER", name: "REPO") {
-       pullRequest(number: N) {
-         reviewThreads(first: 100) {
-           nodes {
-             id
-             isResolved
-             comments(first: 1) {
-               nodes {
-                 id
-                 body
-                 path
-                 originalLine
-               }
-             }
-           }
-         }
-       }
-     }
-   }' --jq '.data.repository.pullRequest.reviewThreads.nodes | map(select(.isResolved == false))'
-   ```
-3. **Process unresolved** - The jq filter already returns only threads where `isResolved: false`
-4. **Reply to each comment** - After making changes, reply to each review comment:
-   - Fixed: `Fixed in commit SHA`
-   - Not an issue: `Not applicable: [reason]`
-   - Question: `Question: [clarification needed]`
-   - Use `gh pr comment <number> --reply-to <comment-id>` if available, or quote the comment
-5. **Verify fixes** - Confirm changes address the current code state
+2. **Query unresolved comments** - Use MCP tools or GraphQL (see `github` skill for GraphQL examples):
+   - Query review threads with `isResolved` field to find unresolved comments
+   - Get thread IDs for replying
+3. **Reply to each comment** - Use MCP tools or GraphQL mutation `addPullRequestReviewThreadReply` (see `github` skill):
+   - Fixed: "Fixed in commit SHA"
+   - Not an issue: "Not applicable: [reason]"
+   - Question: "Question: [clarification needed]"
+4. **Verify fixes** - Confirm changes address the current code state
 
-## Important Note on Comment APIs
-
-The GitHub REST API (`/repos/{owner}/{repo}/pulls/{pull_number}/comments`) does NOT expose the "resolved" state of review comments. The resolution state is only available via:
-
-- GraphQL API (`reviewThreads.isResolved`)
-- GitHub Web UI
-
-Always use GraphQL to check which review threads are actually unresolved.
+**Note:** REST API doesn't expose resolved state - use GraphQL (`reviewThreads.isResolved`) or MCP tools to check unresolved comments.
 
 ## AI Attribution
 
