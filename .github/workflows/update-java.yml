@@ -50,7 +50,7 @@ jobs:
         name: write locks for most dependencies
       - run: ./gradlew build --write-locks
         name: catch any tasks that are run during build that have defined their own dependencies # like spotless
-      - uses: peter-evans/create-pull-request@v8.1.0
+      - uses: peter-evans/create-pull-request@v8.1.1
         id: create_pr
         with:
           title: "chore(deps): java"
