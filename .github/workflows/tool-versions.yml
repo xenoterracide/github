@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+#
+# SPDX-License-Identifier: MIT
+
+name: tool-versions
+on: [push, workflow_call]
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - uses: asdf-vm/actions/plugins-add@v4.0.1
+      - run: asdf install
+      - run: |
+          while read -r tool _; do
+            case "$tool" in
+              nodejs) node --version ;;
+              python) python --version ;;
+              *) "$tool" --version ;;
+            esac
+          done < .tool-versions
