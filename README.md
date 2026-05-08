@@ -10,11 +10,12 @@ Reusable GitHub Actions workflows for CI/CD automation.
 
 ## Available Workflows
 
-| Workflow        | File              | Purpose                                  |
-| --------------- | ----------------- | ---------------------------------------- |
-| **Prettier**    | `prettier.yml`    | Code formatting check (Prettier)         |
-| **License**     | `license.yml`     | REUSE compliance verification            |
-| **Update Java** | `update-java.yml` | Automated Java/Gradle dependency updates |
+| Workflow        | File              | Purpose                                   |
+| --------------- | ----------------- | ----------------------------------------- |
+| **Prettier**    | `prettier.yml`    | Code formatting check (Prettier)          |
+| **License**     | `license.yml`     | REUSE compliance verification             |
+| **Node CLI**    | `node-cli.yml`    | Smoke test yarn-managed Node.js CLI tools |
+| **Update Java** | `update-java.yml` | Automated Java/Gradle dependency updates  |
 
 ## Usage
 

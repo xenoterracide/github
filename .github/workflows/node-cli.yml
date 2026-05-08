@@ -1,0 +1,31 @@
+# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+#
+# SPDX-License-Identifier: MIT
+
+name: node-cli
+on: [push, workflow_call]
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.asdf/downloads
+            ~/.asdf/installs
+            ~/.asdf/plugins
+          key: asdf-${{ runner.os }}-${{ hashFiles('.tool-versions') }}
+          restore-keys: asdf-${{ runner.os }}-
+      - uses: actions/cache@v4
+        with:
+          path: ~/.local/share/yarn/berry/cache
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: yarn-${{ runner.os }}-
+      - uses: asdf-vm/actions/plugins-add@v4.0.1
+      - run: asdf install nodejs
+      - run: corepack enable
+      - run: corepack yarn install --immutable
+      - run: corepack yarn exec git-conventional-commits --version
+      - run: corepack yarn exec lint-staged --version
