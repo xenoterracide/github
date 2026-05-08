@@ -10,6 +10,19 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6.0.2
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.asdf/downloads
+            ~/.asdf/installs
+            ~/.asdf/plugins
+          key: asdf-${{ runner.os }}-${{ hashFiles('.tool-versions') }}
+          restore-keys: asdf-${{ runner.os }}-
+      - uses: actions/cache@v4
+        with:
+          path: ~/.local/share/yarn/berry/cache
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: yarn-${{ runner.os }}-
       - uses: asdf-vm/actions/plugins-add@v4.0.1
       - run: asdf install nodejs
       - run: corepack enable
