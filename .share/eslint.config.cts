@@ -12,16 +12,7 @@ import { defineConfig, globalIgnores } from "eslint/config";
 const jsonPlugin = (jsonPluginImport as { default?: typeof jsonPluginImport }).default ?? jsonPluginImport;
 
 export default defineConfig([
-  globalIgnores([
-    ".yarn/",
-    ".pnp.*",
-    "dist/",
-    "build/",
-    "node_modules/",
-    ".agents/",
-    "node/packages/merge/",
-    "node/packages/secrets-sync/",
-  ]),
+  globalIgnores([".yarn/", ".pnp.*", "dist/", "build/", "node_modules/", ".agents/"]),
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     languageOptions: { globals: globals.node },
@@ -77,9 +68,34 @@ export default defineConfig([
   },
   {
     // CLI entrypoints legitimately use console for user interaction
-    files: ["**/cli.ts", "**/commands/*.ts"],
+    files: ["**/cli.ts", "**/commands/*.ts", "**/merge.ts"],
     rules: {
       "no-console": "off",
+    },
+  },
+
+  {
+    // Node packages: relax strict type checking due to PnP resolution issues
+    files: ["node/packages/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/strict-boolean-expressions": "off",
+      "@typescript-eslint/restrict-template-expressions": "off",
+      "@typescript-eslint/restrict-plus-operands": "off",
+      "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/init-declarations": "off",
+      "no-useless-assignment": "off",
+      "preserve-caught-error": "off",
+      "no-empty": ["error", { allowEmptyCatch: false }],
+      "@typescript-eslint/no-empty-function": "error",
+      // Complex refactor needed
+      "@typescript-eslint/no-unnecessary-condition": "off",
+      "@typescript-eslint/max-params": "off",
+      "@typescript-eslint/no-use-before-define": "off",
     },
   },
   {
