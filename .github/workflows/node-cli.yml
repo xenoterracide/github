@@ -10,7 +10,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6.0.2
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: |
             ~/.asdf/downloads
@@ -18,7 +18,7 @@ jobs:
             ~/.asdf/plugins
           key: asdf-${{ runner.os }}-${{ hashFiles('.tool-versions') }}
           restore-keys: asdf-${{ runner.os }}-
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ~/.local/share/yarn/berry/cache
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
