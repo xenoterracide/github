@@ -1,7 +1,10 @@
 {
-  "name": "@xenoterracide/merge",
+  "name": "@xenoterracide/secrets-sync",
   "license": "GPL-3.0-or-later",
   "packageManager": "yarn@4.14.1",
+  "dependencies": {
+    "clipanion": "^4.0.0-rc.4"
+  },
   "devDependencies": {
     "@types/node": "^24.12.0",
     "tsx": "^4.21.0",
@@ -9,11 +12,9 @@
     "vitest": "^4.1.2"
   },
   "scripts": {
-    "merge:copilot": "ENGINE=copilot tsx merge.ts",
-    "merge:junie": "ENGINE=junie tsx merge.ts",
-    "merge:kimi": "ENGINE=kimi tsx merge.ts",
+    "secrets-sync": "tsx src/cli.ts",
     "test": "vitest run && yarn typecheck",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit merge.ts"
+    "typecheck": "tsc --noEmit"
   }
 }
