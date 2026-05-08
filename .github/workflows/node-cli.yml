@@ -13,6 +13,6 @@ jobs:
       - uses: asdf-vm/actions/plugins-add@v4.0.1
       - run: asdf install nodejs
       - run: corepack enable
-      - run: yarn install --immutable
-      - run: yarn exec git-conventional-commits --version
-      - run: yarn exec lint-staged --version
+      - run: corepack yarn install --immutable
+      - run: corepack yarn exec git-conventional-commits --version
+      - run: corepack yarn exec lint-staged --version
