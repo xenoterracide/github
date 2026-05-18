@@ -15,7 +15,6 @@
   // Squash merges break subtree history
   ignorePaths: [".share/**", ".agents/**"],
   // Remove the 'controls' section from PR body to avoid config noise in squash commits
-  prBodyTemplate: "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{footer}}}",
   hostRules: [
     {
       hostType: "maven",
@@ -25,7 +24,7 @@
   packageRules: [
     {
       matchManagers: ["asdf", "maven", "npm", "pyenv", "pep621", "github-actions"],
-      automerge: true
+      automerge: true,
     },
     {
       // Pin xenoterracide org actions to commit SHAs for build reproducibility
