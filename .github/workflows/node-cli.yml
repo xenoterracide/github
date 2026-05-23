@@ -29,3 +29,4 @@ jobs:
       - run: corepack yarn install --immutable
       - run: corepack yarn exec git-conventional-commits --version
       - run: corepack yarn exec lint-staged --version
+      - run: corepack yarn exec prettier --version
