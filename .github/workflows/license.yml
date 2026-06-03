@@ -9,5 +9,5 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v6.0.3
-      - uses: astral-sh/setup-uv@v8.1.0
+      - uses: astral-sh/setup-uv@v8.2.0
       - run: uv run --frozen --group dev reuse lint
