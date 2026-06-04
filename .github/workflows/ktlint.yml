@@ -13,6 +13,5 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-      - uses: asdf-vm/actions/plugins-add@v4.0.1
-      - run: asdf install ktlint
+      - uses: asdf-vm/actions/install@v4.0.1
       - run: ktlint '*.gradle.kts' '**/*.gradle.kts'

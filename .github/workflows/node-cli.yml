@@ -12,21 +12,13 @@ jobs:
       - uses: actions/checkout@v6.0.2
       - uses: actions/cache@v5
         with:
-          path: |
-            ~/.asdf/downloads
-            ~/.asdf/installs
-            ~/.asdf/plugins
-          key: asdf-${{ runner.os }}-${{ hashFiles('.tool-versions') }}
-          restore-keys: asdf-${{ runner.os }}-
-      - uses: actions/cache@v5
-        with:
           path: ~/.local/share/yarn/berry/cache
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
           restore-keys: yarn-${{ runner.os }}-
-      - uses: asdf-vm/actions/plugins-add@v4.0.1
-      - run: asdf install nodejs
+      - uses: asdf-vm/actions/install@v4.0.1
       - run: corepack enable
-      - run: corepack yarn install --immutable
-      - run: corepack yarn exec git-conventional-commits --version
-      - run: corepack yarn exec lint-staged --version
-      - run: corepack yarn exec prettier --version
+      - run: asdf reshim nodejs
+      - run: yarn install --immutable
+      - run: yarn exec git-conventional-commits --version
+      - run: yarn exec lint-staged --version
+      - run: yarn exec prettier --version
