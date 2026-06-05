@@ -56,6 +56,10 @@ yarn exec prettier --ignore-unknown --write '**'
 reuse lint
 ```
 
+## AI Agent Skills
+
+This repository uses skills from [xenoterracide/agent-skills](https://github.com/xenoterracide/agent-skills), a Kimi Code plugin providing AI coding agent capabilities for Java, Gradle, GitHub, and development workflows.
+
 ## License
 
 This repository uses [REUSE](https://reuse.software/) for license compliance.
