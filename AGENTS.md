@@ -152,9 +152,9 @@ All PRs must pass these GitHub Actions workflows.
 
 **Root workflows** (`.github/workflows/`):
 
-1. **prettier** (`prettier.yml`): Prettier formatting check on Ubuntu 24.04 with Node.js 24.14.1
+1. **prettier** (`prettier.yml`): Prettier formatting check on Ubuntu 24.04 with Node.js 24.14.1 (installed via `actions/setup-node`)
 2. **license** (`license.yml`): REUSE compliance verification using `uv run --frozen --group dev reuse lint`
-3. **node-cli** (`node-cli.yml`): Smoke test for the asdf Node.js toolchain. Verifies that updates to the Node.js binary do not break developer tools installed via Yarn (`prettier`, `lint-staged`, `git-conventional-commits`).
+3. **node-cli** (`node-cli.yml`): Smoke test for the asdf Node.js toolchain. Unlike `prettier.yml`, this workflow installs Node.js via `asdf-vm/actions/install` to mirror local developer environments. It verifies that updates to the Node.js binary (driven by `.tool-versions`) do not break developer tools installed via Yarn (`prettier`, `lint-staged`, `git-conventional-commits`).
 4. **ktlint** (`ktlint.yml`): Kotlin formatting check for Gradle scripts
 5. **maven** (`maven.yml`): Reusable Maven build workflow
 6. **yarn** (`yarn.yml`): Reusable Yarn check workflow (runs `yarn check`)
