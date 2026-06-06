@@ -10,18 +10,56 @@ This file contains essential information for AI coding agents working on this re
 
 ## Project Overview
 
-This is **`github-workflows`**, a repository maintained by Caleb Cushing that provides **reusable GitHub workflows** (and potentially actions in the future) that can be shared across multiple projects. The repository also demonstrates best practices for CI/CD automation, code formatting, and license compliance.
+This is **`github-workflows`**, a repository maintained by Caleb Cushing that provides **reusable GitHub Actions workflows** for CI/CD automation. The repository also embeds a **`.share/` directory** containing shared tooling, git hooks, AI agent skills, and Node.js utility packages (merge automation and secrets sync) that are synchronized from the `template-main` / `share` repository.
 
 ### Technology Stack
 
-- **Node.js**: 24.14.0 with Yarn 4.12.0 (Plug'n'Play mode)
-  - Workspace configuration in `.share/node/`
-  - Prettier with plugins for multiple file types
-- **Python**: Managed by `uv` (not asdf)
+- **Node.js**: 24.14.1 with Yarn 4.16.0 (Plug'n'Play mode)
+  - Additional workspaces and TypeScript tooling live in `.share/node/packages/`
+- **Python**: 3.12+ managed by `uv` (not asdf)
   - Dependency management via `pyproject.toml` with `uv`
-  - REUSE tool for license compliance
-  - Python version is defined in `pyproject.toml`, not `.tool-versions`
-- **Version Management**: asdf (`.tool-versions`) for Node.js and other tools
+  - REUSE tool for license compliance (dev dependency)
+- **TypeScript**: Executed via `tsx` for CLI tooling in `.share/node/packages/`
+- **Version Management**: asdf (`.tool-versions`) for Node.js
+
+## Project Structure
+
+```
+.
+├── .github/
+│   ├── workflows/       # Reusable GitHub workflows (main deliverable)
+│   │   ├── prettier.yml    # Prettier formatting check
+│   │   ├── license.yml     # REUSE compliance verification
+│   │   ├── node-cli.yml    # Smoke test yarn-managed Node.js CLI tools
+│   │   ├── yarn.yml        # Yarn integrity check
+│   │   ├── update-java.yml # Automated Java/Gradle dependency updates
+│   │   ├── ktlint.yml      # Kotlin linting
+│   │   └── maven.yml       # Maven build verification
+│   └── renovate.json5   # Renovate configuration
+├── .share/              # Shared tooling repository (template-main/share)
+│   ├── .agents/
+│   │   ├── mcp/         # MCP (Model Context Protocol) config
+│   │   └── skills/      # AI agent skills (commit-message, github, java, etc.)
+│   ├── git/hooks/       # Git hooks (pre-commit, commit-msg, post-checkout, post-merge)
+│   ├── node/packages/   # Yarn workspaces
+│   │   ├── merge/       # AI-assisted PR merge tool (TypeScript/clipanion)
+│   │   └── secrets-sync/# GitHub secrets sync CLI tool
+│   ├── package.json     # Share-level Node.js config with workspaces
+│   ├── vitest.config.ts # Test configuration for workspaces
+│   └── eslint.config.cts# ESLint configuration for TypeScript
+├── .agents/             # AI agent configuration (subtree/submodule from .share)
+├── package.json         # Root Node.js configuration
+├── pyproject.toml       # Python project configuration
+├── uv.lock              # Python dependency lockfile
+├── yarn.lock            # Node.js dependency lockfile
+├── .tool-versions       # asdf version definitions (Node.js)
+├── git-conventional-commits.yaml  # Commit convention config
+├── renovate.json5       # Renovate bot configuration (root)
+├── REUSE.toml           # REUSE compliance configuration
+├── .lintstagedrc.cjs    # lint-staged per-file-type commands
+├── .prettierrc.cjs      # Prettier configuration
+└── .editorconfig        # EditorConfig formatting rules
+```
 
 ## Build and Test Commands
 
@@ -29,12 +67,24 @@ This is **`github-workflows`**, a repository maintained by Caleb Cushing that pr
 
 ```bash
 # Initial setup (run after cloning or when lockfile changes)
-yarn install --immutable
 yarn contribute
 
 # Run all tests (MUST pass before merging)
 yarn test
 ```
+
+### Setup Details
+
+```bash
+# Full initial setup
+yarn precontribute   # Installs corepack, yarn, and dependencies
+yarn contribute      # Syncs Python venv and configures git hooks
+```
+
+The `yarn contribute` script at the root does the following:
+
+- Runs `uv sync --frozen`
+- Configures `git config core.hooksPath .share/git/hooks`
 
 ### Dependency Management
 
@@ -49,6 +99,24 @@ yarn up
 uv sync --frozen
 ```
 
+### Linting Commands
+
+```bash
+# Run all linters
+yarn lint
+
+# Individual linters
+yarn lint:prettier   # Prettier formatting check
+yarn lint:reuse      # REUSE license compliance check
+```
+
+### Merge Automation
+
+```bash
+# AI-assisted PR merge workflows (runs from .share/)
+yarn merge:kimi      # Uses Kimi CLI
+```
+
 ## Code Style Guidelines
 
 ### Formatting
@@ -59,7 +127,7 @@ uv sync --frozen
   - `prettier-plugin-properties` - Properties files
   - `prettier-plugin-toml` - TOML files
 
-- **Configuration**: `prettierrc.cjs`
+- **Configuration**: `.prettierrc.cjs`
   - `printWidth: 120`
   - `xmlWhitespaceSensitivity: "ignore"`
 
@@ -91,7 +159,7 @@ git config core.hooksPath .share/git/hooks
 
 ### lint-staged Configuration
 
-`lintstagedrc.cjs` defines per-file-type commands:
+`.lintstagedrc.cjs` defines per-file-type commands:
 
 - Code files (TypeScript, Java): REUSE annotate with GPL-3.0-or-later, then Prettier
 - JSON files (except package.json): REUSE annotate with CC0-1.0, then Prettier
@@ -135,17 +203,25 @@ All commits MUST follow the Conventional Commits specification (`git-conventiona
 All PRs must pass these GitHub Actions workflows (defined in `.github/workflows/`):
 
 1. **prettier** (`prettier.yml`): Prettier formatting check
-   - Runs on Ubuntu 24.04 with Node.js 24
+   - Runs on Ubuntu 24.04 with Node.js 24.14.1
    - Executes `yarn exec prettier --ignore-unknown --check '**'`
 
 2. **license** (`license.yml`): REUSE compliance verification
    - Runs on Ubuntu 24.04 with Python 3 and uv
-   - Executes `reuse lint`
+   - Executes `uv run --frozen --group dev reuse lint`
 
-3. **update-java** (`update-java.yml`): Automated Java dependency updates
-   - Triggered via workflow_call (typically by Renovate)
-   - Updates Gradle wrapper and lockfiles
-   - Creates PR with updates and auto-merges
+3. **node-cli** (`node-cli.yml`): Smoke test for yarn-managed Node.js CLI tools
+   - Runs on Ubuntu 24.04 with asdf
+   - Verifies `git-conventional-commits`, `lint-staged`, and `prettier` executables
+
+### Additional Reusable Workflows
+
+These workflows are triggered via `workflow_call` (typically by consuming repositories):
+
+- **yarn** (`yarn.yml`): Yarn integrity check (`yarn install --immutable`, `yarn check`)
+- **update-java** (`update-java.yml`): Automated Java dependency updates (Gradle wrapper, lockfiles)
+- **ktlint** (`ktlint.yml`): Kotlin linting for Gradle Kotlin DSL files
+- **maven** (`maven.yml`): Maven build verification (`./mvnw verify`)
 
 ### Local Testing
 
@@ -158,6 +234,9 @@ yarn exec prettier --ignore-unknown --write '**'
 
 # Check REUSE compliance
 reuse lint
+
+# Run workspace tests (from .share/)
+cd .share && yarn test
 ```
 
 ## Security Considerations
@@ -168,73 +247,38 @@ reuse lint
 - **Node.js**: Yarn PnP with lockfile (`yarn.lock`)
 - **Renovate**: Automated dependency updates configured in `.github/renovate.json5`
 
-**Renovate Schedule**:
+**Renovate Configuration**:
 
-- Gradle major updates: Daily at 04:00 UTC
-- Gradle plugins: Weekly Wednesday at 05:00 UTC
-- GitHub Actions: Automatic with automerge
-- npm/asdf devDependencies: Weekly Wednesday at 04:00 UTC
+- Auto-merge enabled for asdf, maven, npm, pyenv, pep621, and github-actions
+- GitHub Actions from `xenoterracide/**` are pinned to commit SHAs for reproducibility
+- `.share/**` and `.agents/**` are excluded from Renovate updates
+- PR body template excludes the `controls` section to avoid config noise in squash commits
 
 ### Secrets and Environment
 
 - `.envrc` configures asdf and adds `.share/bin` to PATH
 - Never commit secrets or `.env` files
 - AI-generated PR messages avoid exposing sensitive diff content
-
-## Project Structure
-
-```
-.
-├── .github/
-│   ├── workflows/       # **Reusable GitHub workflows** - main deliverable
-│   │                     (format, license, update-java)
-│   └── renovate.json5   # Renovate configuration for GitHub
-├── .agents/              # AI agent configuration and skills
-│   ├── mcp/             # MCP (Model Context Protocol) config
-│   └── skills/          # AI skills for commit messages, Java, GitHub, etc.
-├── .share/              # Shared tooling and scripts
-│   ├── bin/             # Custom scripts
-│   ├── git/hooks/       # Git hooks (pre-commit, commit-msg)
-│   └── node/            # Node.js workspaces
-│       └── merge/       # Merge automation (TypeScript)
-├── LICENSES/            # SPDX license texts
-├── .tool-versions       # asdf version definitions
-├── git-conventional-commits.yaml  # Commit convention config
-├── renovate.json5       # Renovate bot configuration (root)
-├── REUSE.toml           # REUSE compliance configuration
-├── pyproject.toml       # Python project configuration
-└── uv.lock              # Python dependency lockfile
-```
-
-## AI Skills
-
-The `.agents/skills/` directory contains specialized instructions for AI agents:
-
-- **commit-message**: Conventional commit format for PRs and commits
-- **github**: GitHub CLI usage patterns
-- **java**: Java coding preferences (prefer `var`, immutability, package-private visibility)
-- **shell-script**: POSIX-compliant shell scripting with shellcheck
-- **pull-request**: Workflow for creating/updating PRs, handling review comments
-- **use-case-creator**: Cockburn format use case specifications with semantic anchors
-
-Skills use YAML frontmatter with metadata including allowed tools and licensing.
+- Git hooks check `[ -n "$CI" ]` and exit early in CI environments
 
 ## Licensing
 
 This project uses REUSE specification for licensing:
 
-| File Type                             | License          | Examples                                |
-| ------------------------------------- | ---------------- | --------------------------------------- |
-| Source Code (Java, TypeScript, Shell) | GPL-3.0-or-later | `.ts`, `.java`, `.sh`                   |
-| Scripts (JS, CJS)                     | MIT              | `*.cjs`                                 |
-| Configuration                         | CC0-1.0          | `*.json`, `*.yaml`, `*.toml`, `*.json5` |
-| Documentation                         | CC-BY-NC-SA-4.0  | `*.md`, `*.adoc`                        |
-| Skills                                | CC-BY-NC-SA-4.0  | `.agents/skills/**/*.md`                |
+| File Type                      | License          | Examples                           |
+| ------------------------------ | ---------------- | ---------------------------------- |
+| Source Code (TypeScript, Java) | GPL-3.0-or-later | `.ts`, `.java`                     |
+| Scripts (JS, CJS, YML)         | MIT              | `.cjs`, `.js`, `.yml`              |
+| package.json                   | MIT              | `package.json`                     |
+| JSON files (non-package)       | CC0-1.0          | `.json`                            |
+| Configuration                  | CC0-1.0          | `.xml`, `.yaml`, `.toml`, `.json5` |
+| Documentation                  | CC-BY-NC-SA-4.0  | `.md`, `.adoc`                     |
+| Skills                         | CC-BY-NC-SA-4.0  | `.agents/skills/**/*.md`           |
 
 **Exceptions** (defined in `REUSE.toml`):
 
 - Lockfiles: `*.lockfile`, `yarn.lock`, `uv.lock`
-- Version files: `.tool-versions`
+- Version files: `.tool-versions`, `.python-version`
 
 All files MUST include SPDX headers. Use `reuse annotate` to add license headers:
 
@@ -260,3 +304,4 @@ reuse annotate --copyright 'Caleb Cushing' --license 'CC-BY-NC-SA-4.0' <file>
 - Use `git config core.hooksPath .share/git/hooks` to enable git hooks
 - PR descriptions become the squash merge commit message - format them accordingly
 - AI attribution should be added as `Co-authored-by` trailers in commit messages
+- The `.share/` directory contains a separate shared tooling repository; changes there may need to be synced upstream to `template-main`
