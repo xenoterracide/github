@@ -10,12 +10,12 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v7.0.0
-      - uses: actions/cache@v6.0.0
+      - uses: actions/cache@v6.1.0
         with:
           path: ~/.asdf
           key: asdf-${{ runner.os }}-${{ hashFiles('.tool-versions') }}
           restore-keys: asdf-${{ runner.os }}-
-      - uses: actions/cache@v6.0.0
+      - uses: actions/cache@v6.1.0
         with:
           path: ~/.local/share/yarn/berry/cache
           key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
