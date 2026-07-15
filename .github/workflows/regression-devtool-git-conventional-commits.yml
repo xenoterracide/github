@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-name: node-cli
+name: git-conventional-commits
 on: [push, workflow_call]
 jobs:
   check:
@@ -25,5 +25,3 @@ jobs:
       - run: asdf reshim nodejs
       - run: yarn install --immutable
       - run: yarn exec git-conventional-commits --version
-      - run: yarn exec lint-staged --version
-      - run: yarn exec prettier --version
