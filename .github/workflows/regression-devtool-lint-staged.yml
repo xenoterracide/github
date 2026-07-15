@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+#
+# SPDX-License-Identifier: MIT
+
+name: regression lint-staged
+on: [push, workflow_call]
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7.0.0
+      - uses: actions/cache@v6.1.0
+        with:
+          path: ~/.asdf
+          key: asdf-${{ runner.os }}-${{ hashFiles('.tool-versions') }}
+          restore-keys: asdf-${{ runner.os }}-
+      - uses: actions/cache@v6.1.0
+        with:
+          path: ~/.local/share/yarn/berry/cache
+          key: yarn-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: yarn-${{ runner.os }}-
+      - uses: asdf-vm/actions/install@v4.0.1
+      - run: corepack enable
+      - run: asdf reshim nodejs
+      - run: yarn install --immutable
+      - run: yarn exec lint-staged --version
