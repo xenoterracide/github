@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-name: prettier
+name: regression prettier
 on: [push, workflow_call]
 jobs:
   check:

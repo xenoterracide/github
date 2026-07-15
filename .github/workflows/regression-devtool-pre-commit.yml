@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: Copyright © 2024, 2026 Caleb Cushing
 #
 # SPDX-License-Identifier: MIT
-name: pre-commit
+name: regression pre-commit
 on: [push, workflow_call]
 jobs:
   check:

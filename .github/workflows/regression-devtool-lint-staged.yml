@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-name: lint-staged
+name: regression lint-staged
 on: [push, workflow_call]
 jobs:
   check:
