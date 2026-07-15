@@ -154,7 +154,7 @@ All PRs must pass these GitHub Actions workflows.
 
 1. **prettier** (`prettier.yml`): Prettier formatting check on Ubuntu 24.04 with Node.js 24.14.1 (installed via `actions/setup-node`)
 2. **license** (`license.yml`): REUSE compliance verification using `uv run --frozen --group dev reuse lint`
-3. **node-cli** (`node-cli.yml`): Smoke test for the asdf Node.js toolchain. Unlike `prettier.yml`, this workflow installs Node.js via `asdf-vm/actions/install` to mirror local developer environments. It verifies that updates to the Node.js binary (driven by `.tool-versions`) do not break developer tools installed via Yarn (`prettier`, `lint-staged`, `git-conventional-commits`).
+3. **devtool-regression** (`devtool-regression.yml`): Aggregator workflow that runs per-tool regression checks to verify that toolchain updates do not break developer tools. It calls the `regression-devtool-*` workflows covering Yarn-installed tools (`prettier`, `lint-staged`, `git-conventional-commits`) and uv-installed tools (`pre-commit`, `reuse`). Replaces the previous `node-cli.yml` smoke test.
 4. **ktlint** (`ktlint.yml`): Kotlin formatting check for Gradle scripts
 5. **maven** (`maven.yml`): Reusable Maven build workflow
 6. **yarn** (`yarn.yml`): Reusable Yarn check workflow (runs `yarn check`)
@@ -162,7 +162,7 @@ All PRs must pass these GitHub Actions workflows.
 
 **`.share` workflows** (`.share/.github/workflows/`):
 
-1. **devtools** (`devtools.yml`): Calls root `license.yml`, `prettier.yml`, and `node-cli.yml`
+1. **devtools** (`devtools.yml`): Calls root `license.yml`, `prettier.yml`, and `devtool-regression.yml`
 2. **test** (`test.yml`): Calls root `yarn.yml` to run checks against `.share`
 
 ### Local Testing
@@ -207,8 +207,9 @@ reuse lint
 ```
 .
 ├── .github/
-│   ├── workflows/       # Reusable GitHub workflows (prettier, license, node-cli,
-│   │                     ktlint, maven, yarn, update-java)
+│   ├── workflows/       # Reusable GitHub workflows (prettier, license,
+│   │                     devtool-regression, regression-devtool-*, ktlint, maven,
+│   │                     yarn, update-java)
 │   └── renovate.json5   # Renovate configuration for this repository
 ├── .share/              # Shared tooling subtree (from xenoterracide/subtree-ai)
 │   ├── .github/
