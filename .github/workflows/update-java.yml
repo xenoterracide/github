@@ -36,7 +36,7 @@ jobs:
           java-version: ${{ inputs.java-version }}
       - uses: gradle/actions/setup-gradle@v6.3.0
         with:
-          gradle-version: current
+          gradle-version: 9.7.1
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - run: gradle wrapper --write-locks
         name: set new wrapper
