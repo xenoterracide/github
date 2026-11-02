@@ -15,12 +15,10 @@ jobs:
           path: ~/.asdf
           key: asdf-${{ runner.os }}-${{ hashFiles('.tool-versions') }}
           restore-keys: asdf-${{ runner.os }}-
-      - uses: actions/cache@v6.1.0
-        with:
-          path: ~/.local/share/pnpm/store
-          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: pnpm-${{ runner.os }}-
-      - uses: pnpm/action-setup@v6.1.0
       - uses: asdf-vm/actions/install@v4.0.1
+      - run: printf 'nodejs %s\n' "$(awk '/^nodejs/ { print $2 }' .tool-versions)" > "$HOME/.tool-versions"
+      - uses: pnpm/action-setup@v6.1.0
+        with:
+          cache: true
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec lint-staged --version
