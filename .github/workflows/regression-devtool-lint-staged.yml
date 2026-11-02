@@ -22,5 +22,7 @@ jobs:
           restore-keys: pnpm-${{ runner.os }}-
       - uses: asdf-vm/actions/install@v4.0.1
       - uses: pnpm/action-setup@v6.1.0
+        with:
+          standalone: true
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec lint-staged --version
