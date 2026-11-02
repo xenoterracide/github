@@ -12,12 +12,13 @@ const licenseConfiguration = "--license 'CC0-1.0' --fallback-dot-license";
 const licenseDocumentation = "--license 'CC-BY-NC-SA-4.0'";
 const licenseScripts = "--license 'MIT' --fallback-dot-license";
 
-const withoutYarn = (files) => files.filter((file) => !file.includes("/.yarn/") && !file.startsWith(".yarn/"));
+const withoutLockfile = (files) =>
+  files.filter((file) => file !== "pnpm-lock.yaml" && !file.endsWith("/pnpm-lock.yaml"));
 
 const withFiles = (command, files) => `${command} ${files.map((file) => `"${file.replace(/"/g, '\\"')}"`).join(" ")}`;
 
 const run = (commands) => (files) => {
-  const filtered = withoutYarn(files);
+  const filtered = withoutLockfile(files);
 
   if (!filtered.length) {
     return [];
