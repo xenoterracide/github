@@ -14,7 +14,7 @@ This is **`github-workflows`**, a repository maintained by Caleb Cushing that pr
 
 ### Technology Stack
 
-- **Node.js**: pinned in `.tool-versions` (asdf); package manager pinned in `package.json` (`packageManager`, Yarn, Plug'n'Play)
+- **Node.js**: pinned in `.tool-versions` (asdf); package manager pinned in `package.json` (`packageManager`, pnpm)
   - Prettier with plugins for XML, Java, Properties, and TOML
 - **Python**: managed by `uv`
   - Dependency management via `pyproject.toml` with `uv.lock`
@@ -27,18 +27,18 @@ This is **`github-workflows`**, a repository maintained by Caleb Cushing that pr
 
 ```bash
 # Initial setup (run after cloning or when lockfile changes)
-yarn precontribute   # installs corepack and Yarn dependencies
-yarn contribute      # syncs Python deps and enables git hooks
+pnpm precontribute   # installs corepack and pnpm dependencies
+pnpm contribute      # syncs Python deps and enables git hooks
 
 # Run all lint checks (prettier + REUSE)
-yarn lint
+pnpm lint
 ```
 
 ### Dependency Management
 
 ```bash
 # Install Node.js dependencies from lockfile
-yarn install --immutable
+pnpm install --frozen-lockfile
 
 # Sync Python dependencies
 uv sync --frozen
@@ -75,8 +75,8 @@ Git hooks are located in `.config/git/hooks/`:
 
 **Post-operation hooks:**
 
-- **post-merge**: Auto-runs `yarn install --immutable` and/or `uv sync --frozen` when `yarn.lock` or `uv.lock` change after `git pull`
-- **post-checkout**: Auto-runs `yarn install --immutable` and/or `uv sync --frozen` when lockfiles differ between branches
+- **post-merge**: Auto-runs `pnpm install --frozen-lockfile` and/or `uv sync --frozen` when `pnpm-lock.yaml` or `uv.lock` change after `git pull`
+- **post-checkout**: Auto-runs `pnpm install --frozen-lockfile` and/or `uv sync --frozen` when lockfiles differ between branches
 
 To enable hooks:
 
@@ -136,19 +136,19 @@ All PRs must pass these GitHub Actions workflows (see `.github/workflows/` for r
 2. **license** (`license.yml`): REUSE compliance verification using `uv run --frozen --group dev reuse lint` (also runs on push)
 3. **ktlint** (`ktlint.yml`): Kotlin formatting check for Gradle scripts
 4. **maven** (`maven.yml`): Maven build workflow
-5. **yarn** (`yarn.yml`): Yarn check workflow (runs `yarn check`)
+5. **pnpm** (`pnpm.yml`): pnpm check workflow (runs `pnpm run check`)
 6. **update-java** (`update-java.yml`): Automated Java/Gradle dependency updates (creates PR and auto-merges)
 
-**Regression smoke tests** (run on push): `regression-devtool-{prettier,lint-staged,git-conventional-commits,pre-commit,reuse}.yml` verify that the developer tools still run under the pinned toolchain; the Node-based ones install Node.js via `asdf-vm/actions/install` to mirror local environments.
+**Regression smoke tests** (run on push, also `workflow_call`): `regression-devtool-{prettier,lint-staged,git-conventional-commits,pre-commit,reuse}.yml` are reusable — consumer repositories call them via their own `devtools-regression.yml` to install their project and verify their devtools under their pinned toolchain. The Node-based ones install Node.js via `asdf-vm/actions/install` to mirror local environments.
 
 ### Local Testing
 
 ```bash
 # Check formatting
-yarn exec prettier --ignore-unknown --check '**'
+pnpm exec prettier --ignore-unknown --check '**'
 
 # Fix formatting
-yarn exec prettier --ignore-unknown --write '**'
+pnpm exec prettier --ignore-unknown --write '**'
 
 # Check REUSE compliance
 reuse lint
@@ -159,7 +159,7 @@ reuse lint
 ### Dependency Management
 
 - **Python**: Uses `uv` with `pyproject.toml` and `uv.lock` for reproducible builds
-- **Node.js**: Yarn PnP with lockfile (`yarn.lock`)
+- **Node.js**: pnpm with lockfile (`pnpm-lock.yaml`)
 - **Renovate**: Automated dependency updates configured in `.github/renovate.json5`
   - Automerge enabled for asdf, maven, npm, pyenv, pep621, and github-actions
   - `xenoterracide/**` GitHub Actions are pinned to commit SHAs for reproducibility
@@ -179,7 +179,7 @@ reuse lint
 │   └── git/hooks/       # Git hooks (pre-commit, commit-msg, post-merge, post-checkout)
 ├── .github/
 │   ├── workflows/       # Reusable GitHub workflows (prettier, license, ktlint, maven,
-│   │                     yarn, update-java) and regression-devtool-* smoke tests
+│   │                     pnpm, update-java) and regression-devtool-* smoke tests
 │   └── renovate.json5   # Renovate configuration for this repository
 ├── LICENSES/            # SPDX license texts
 ├── .tool-versions       # asdf version definitions
@@ -202,7 +202,7 @@ This project uses REUSE specification for licensing:
 
 **Exceptions** (defined in `REUSE.toml`):
 
-- Lockfiles: `*.lockfile`, `yarn.lock`, `uv.lock`
+- Lockfiles: `*.lockfile`, `pnpm-lock.yaml`, `uv.lock`
 - Version files: `.tool-versions`, `.python-version`
 - Gradle wrapper: `gradle/wrapper/*` (Apache-2.0)
 

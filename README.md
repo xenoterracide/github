@@ -17,9 +17,9 @@ Reusable GitHub Actions workflows for CI/CD automation.
 | **Maven**       | `maven.yml`       | Maven build                                |
 | **Prettier**    | `prettier.yml`    | Code formatting check (Prettier)           |
 | **Update Java** | `update-java.yml` | Automated Java/Gradle dependency updates   |
-| **Yarn**        | `yarn.yml`        | Yarn check (runs `yarn check`)             |
+| **Pnpm**        | `pnpm.yml`        | pnpm check (runs `pnpm run check`)         |
 
-`regression-devtool-*.yml` are push-triggered smoke tests for this repository's own developer tools, not reusable.
+`regression-devtool-*.yml` are smoke tests that install the calling project and verify its devtools; five repositories call them via `devtools-regression.yml`, and they also run on push here.
 
 ## Usage
 
@@ -40,7 +40,7 @@ jobs:
 git config core.hooksPath .config/git/hooks
 
 # Install dependencies
-yarn install
+pnpm install
 uv sync --frozen
 ```
 
@@ -48,13 +48,13 @@ uv sync --frozen
 
 ```bash
 # Run all lint checks (prettier + REUSE)
-yarn lint
+pnpm lint
 
 # Check formatting
-yarn exec prettier --ignore-unknown --check '**'
+pnpm exec prettier --ignore-unknown --check '**'
 
 # Fix formatting
-yarn exec prettier --ignore-unknown --write '**'
+pnpm exec prettier --ignore-unknown --write '**'
 
 # Check REUSE compliance
 reuse lint
