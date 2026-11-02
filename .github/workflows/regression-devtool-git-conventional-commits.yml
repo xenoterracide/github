@@ -20,9 +20,7 @@ jobs:
           path: ~/.local/share/pnpm/store
           key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: pnpm-${{ runner.os }}-
-      - uses: asdf-vm/actions/install@v4.0.1
       - uses: pnpm/action-setup@v6.1.0
-        with:
-          standalone: true
+      - uses: asdf-vm/actions/install@v4.0.1
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec git-conventional-commits --version
