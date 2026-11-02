@@ -1,8 +1,0 @@
-# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
-#
-# SPDX-License-Identifier: MIT
-name: test
-on: [push]
-jobs:
-  yarn:
-    uses: xenoterracide/github/.github/workflows/yarn.yml@04b53dc67973c2d35868aa9b2f0cf827c078914b # develop

@@ -18,11 +18,9 @@
     "lint": "yarn lint:prettier && yarn lint:reuse",
     "lint:prettier": "prettier --ignore-unknown --cache --check '**'",
     "lint:reuse": "yarn reuse lint",
-    "merge:kimi": "cd .share && yarn workspace @xenoterracide/merge run merge:kimi",
     "precontribute": "yarn setup:corepack && yarn setup:yarn",
     "reuse": "uv run --frozen --group dev reuse",
     "setup:corepack": "npm install -g corepack && corepack enable",
-    "setup:yarn": "yarn install --immutable && cd .share && yarn install --immutable",
-    "test": "yarn workspaces foreach --all run test"
+    "setup:yarn": "yarn install --immutable"
   }
 }
