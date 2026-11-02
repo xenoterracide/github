@@ -9,14 +9,10 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v7.0.1
+      - uses: pnpm/action-setup@v6.1.0
       - uses: actions/setup-node@v7.1.0
         with:
           node-version: 26.13.0
-          package-manager-cache: false
-      - run: corepack enable
-      - uses: actions/setup-node@v7.1.0
-        with:
-          node-version: 26.13.0
-          cache: "yarn"
-      - run: yarn install --immutable --inline-builds --check-resolutions
-      - run: yarn exec prettier --ignore-unknown --check '**'
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec prettier --ignore-unknown --check '**'
