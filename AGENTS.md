@@ -86,7 +86,7 @@ uv sync --frozen
 
 ### Git Hooks
 
-Git hooks are located in `.share/git/hooks/`:
+Git hooks are located in `.config/git/hooks/`:
 
 **Pre-commit hooks:**
 
@@ -101,7 +101,7 @@ Git hooks are located in `.share/git/hooks/`:
 To enable hooks:
 
 ```bash
-git config core.hooksPath .share/git/hooks
+git config core.hooksPath .config/git/hooks
 ```
 
 ### lint-staged Configuration
@@ -268,6 +268,6 @@ reuse annotate --copyright 'Caleb Cushing' --license 'CC-BY-NC-SA-4.0' <file>
 - Run `cd .share && yarn test` before merging (root `yarn test` does not execute workspace tests)
 - Ensure all files have proper SPDX license headers
 - Follow conventional commit format for all commits
-- Use `git config core.hooksPath .share/git/hooks` to enable git hooks
+- Use `git config core.hooksPath .config/git/hooks` to enable git hooks
 - PR descriptions become the squash merge commit message — format them accordingly
 - AI attribution should be added as `Co-authored-by` trailers in commit messages

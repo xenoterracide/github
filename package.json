@@ -14,7 +14,7 @@
     "rimraf": "^6.1.2"
   },
   "scripts": {
-    "contribute": "uv sync --frozen && git config core.hooksPath .share/git/hooks",
+    "contribute": "uv sync --frozen && git config core.hooksPath .config/git/hooks",
     "lint": "yarn lint:prettier && yarn lint:reuse",
     "lint:prettier": "prettier --ignore-unknown --cache --check '**'",
     "lint:reuse": "yarn reuse lint",

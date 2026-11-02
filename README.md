@@ -33,7 +33,7 @@ jobs:
 
 ```bash
 # Enable git hooks for formatting and license compliance
-git config core.hooksPath .share/git/hooks
+git config core.hooksPath .config/git/hooks
 
 # Install dependencies
 yarn install
