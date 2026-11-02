@@ -10,21 +10,16 @@ This file contains essential information for AI coding agents working on this re
 
 ## Project Overview
 
-This is **`github-workflows`**, a repository maintained by Caleb Cushing that provides **reusable GitHub Actions workflows** for CI/CD automation, code formatting, license compliance, and Java dependency updates. The repository also embeds a shared tooling subtree (`.share/`) that supplies development configurations, git hooks, and Node.js CLI packages.
+This is **`github-workflows`**, a repository maintained by Caleb Cushing that provides **reusable GitHub Actions workflows** for CI/CD automation, code formatting, license compliance, and Java dependency updates. Local development uses git hooks from `.config/git/hooks/`.
 
 ### Technology Stack
 
-- **Node.js**: 24.14.1 via asdf (`.tool-versions`)
-  - Root package manager: Yarn 4.16.0 (Plug'n'Play mode)
-  - `.share` package manager: Yarn 4.13.0 with workspaces in `node/packages/*`
+- **Node.js**: pinned in `.tool-versions` (asdf); package manager pinned in `package.json` (`packageManager`, Yarn, Plug'n'Play)
   - Prettier with plugins for XML, Java, Properties, and TOML
-  - ESLint 10 with strict TypeScript rules (`typescript-eslint`)
-- **Python**: Managed by `uv`
+- **Python**: managed by `uv`
   - Dependency management via `pyproject.toml` with `uv.lock`
   - REUSE tool for license compliance (dev dependency)
   - Python version is defined in `pyproject.toml`, not `.tool-versions`
-- **TypeScript**: Used for Node.js CLI packages inside `.share/node/packages/`
-- **Testing**: Vitest with coverage (thresholds at 28%)
 
 ## Build and Test Commands
 
@@ -32,24 +27,18 @@ This is **`github-workflows`**, a repository maintained by Caleb Cushing that pr
 
 ```bash
 # Initial setup (run after cloning or when lockfile changes)
-yarn precontribute   # installs corepack and yarn dependencies in root + .share
+yarn precontribute   # installs corepack and Yarn dependencies
 yarn contribute      # syncs Python deps and enables git hooks
 
-# Run tests (run from .share where the workspaces are defined)
-cd .share && yarn test
-
-# Run all checks in .share (eslint + typecheck + test concurrently)
-cd .share && yarn check
+# Run all lint checks (prettier + REUSE)
+yarn lint
 ```
 
 ### Dependency Management
 
 ```bash
-# Install Node.js dependencies from lockfile (root)
+# Install Node.js dependencies from lockfile
 yarn install --immutable
-
-# Install Node.js dependencies from lockfile (.share)
-cd .share && yarn install --immutable
 
 # Sync Python dependencies
 uv sync --frozen
@@ -65,7 +54,7 @@ uv sync --frozen
   - `prettier-plugin-properties` - Properties files
   - `prettier-plugin-toml` - TOML files
 
-- **Configuration**: `prettierrc.cjs` (also present in `.share/`)
+- **Configuration**: `prettierrc.cjs`
   - `printWidth: 120`
   - `xmlWhitespaceSensitivity: "ignore"`
 
@@ -74,15 +63,6 @@ uv sync --frozen
   - LF line endings
   - 2-space indentation
   - Final newline required
-
-### Linting
-
-- **ESLint** is configured in `.share/eslint.config.cts` with strict TypeScript rules:
-  - Explicit function return types and member accessibility
-  - Consistent type imports/exports
-  - Strict boolean expressions and switch exhaustiveness
-  - Prefer readonly, promise-function-async
-  - Relaxed rules for `node/packages/**/*.ts` due to Yarn PnP resolution behavior
 
 ### Git Hooks
 
@@ -106,7 +86,7 @@ git config core.hooksPath .config/git/hooks
 
 ### lint-staged Configuration
 
-`lintstagedrc.cjs` (root) and `.share/.lintstagedrc.cjs` define per-file-type commands:
+`lintstagedrc.cjs` (root) defines per-file-type commands:
 
 - TypeScript/Java code files: REUSE annotate with GPL-3.0-or-later, then Prettier
 - JSON files (except package.json): REUSE annotate with CC0-1.0, then Prettier
@@ -148,32 +128,22 @@ All commits MUST follow the Conventional Commits specification (`git-conventiona
 
 ### CI Workflows
 
-All PRs must pass these GitHub Actions workflows.
+All PRs must pass these GitHub Actions workflows (see `.github/workflows/` for runner and version details).
 
-**Root workflows** (`.github/workflows/`):
+**Reusable workflows** (`workflow_call`, consumed by other repositories):
 
-1. **prettier** (`prettier.yml`): Prettier formatting check on Ubuntu 24.04 with Node.js 24.14.1 (installed via `actions/setup-node`)
-2. **license** (`license.yml`): REUSE compliance verification using `uv run --frozen --group dev reuse lint`
-3. **node-cli** (`node-cli.yml`): Smoke test for the asdf Node.js toolchain. Unlike `prettier.yml`, this workflow installs Node.js via `asdf-vm/actions/install` to mirror local developer environments. It verifies that updates to the Node.js binary (driven by `.tool-versions`) do not break developer tools installed via Yarn (`prettier`, `lint-staged`, `git-conventional-commits`).
-4. **ktlint** (`ktlint.yml`): Kotlin formatting check for Gradle scripts
-5. **maven** (`maven.yml`): Reusable Maven build workflow
-6. **yarn** (`yarn.yml`): Reusable Yarn check workflow (runs `yarn check`)
-7. **update-java** (`update-java.yml`): Reusable workflow for automated Java/Gradle dependency updates (creates PR and auto-merges)
+1. **prettier** (`prettier.yml`): Prettier formatting check (also runs on push)
+2. **license** (`license.yml`): REUSE compliance verification using `uv run --frozen --group dev reuse lint` (also runs on push)
+3. **ktlint** (`ktlint.yml`): Kotlin formatting check for Gradle scripts
+4. **maven** (`maven.yml`): Maven build workflow
+5. **yarn** (`yarn.yml`): Yarn check workflow (runs `yarn check`)
+6. **update-java** (`update-java.yml`): Automated Java/Gradle dependency updates (creates PR and auto-merges)
 
-**`.share` workflows** (`.share/.github/workflows/`):
-
-1. **devtools** (`devtools.yml`): Calls root `license.yml`, `prettier.yml`, and `node-cli.yml`
-2. **test** (`test.yml`): Calls root `yarn.yml` to run checks against `.share`
+**Regression smoke tests** (run on push): `regression-devtool-{prettier,lint-staged,git-conventional-commits,pre-commit,reuse}.yml` verify that the developer tools still run under the pinned toolchain; the Node-based ones install Node.js via `asdf-vm/actions/install` to mirror local environments.
 
 ### Local Testing
 
 ```bash
-# Run tests with coverage (from .share)
-cd .share && yarn test
-
-# Run full check suite (eslint + tsc + vitest)
-cd .share && yarn check
-
 # Check formatting
 yarn exec prettier --ignore-unknown --check '**'
 
@@ -189,15 +159,14 @@ reuse lint
 ### Dependency Management
 
 - **Python**: Uses `uv` with `pyproject.toml` and `uv.lock` for reproducible builds
-- **Node.js**: Yarn PnP with lockfiles (`yarn.lock` in root and `.share/`)
+- **Node.js**: Yarn PnP with lockfile (`yarn.lock`)
 - **Renovate**: Automated dependency updates configured in `.github/renovate.json5`
   - Automerge enabled for asdf, maven, npm, pyenv, pep621, and github-actions
   - `xenoterracide/**` GitHub Actions are pinned to commit SHAs for reproducibility
-  - `.share/**` and `.agents/**` paths are excluded from Renovate updates (managed via git subtree)
 
 ### Secrets and Environment
 
-- `.envrc` configures asdf and adds `.share/bin` to PATH
+- `.envrc` runs `asdf install`
 - Never commit secrets or `.env` files
 - AI-generated PR messages avoid exposing sensitive diff content
 - `update-java.yml` requires `GRADLE_ENCRYPTION_KEY` and `MERGE_PAT` secrets
@@ -206,25 +175,15 @@ reuse lint
 
 ```
 .
+├── .config/
+│   └── git/hooks/       # Git hooks (pre-commit, commit-msg, post-merge, post-checkout)
 ├── .github/
-│   ├── workflows/       # Reusable GitHub workflows (prettier, license, node-cli,
-│   │                     ktlint, maven, yarn, update-java)
+│   ├── workflows/       # Reusable GitHub workflows (prettier, license, ktlint, maven,
+│   │                     yarn, update-java) and regression-devtool-* smoke tests
 │   └── renovate.json5   # Renovate configuration for this repository
-├── .share/              # Shared tooling subtree (from xenoterracide/subtree-ai)
-│   ├── .github/
-│   │   └── workflows/   # .share CI (devtools.yml, test.yml)
-│   ├── git/hooks/       # Git hooks (pre-commit, commit-msg, post-merge, post-checkout)
-│   ├── node/
-│   │   └── packages/    # Node.js workspaces
-│   │       ├── merge/       # PR merge automation for AI agents (kimi, junie, copilot)
-│   │       └── secrets-sync/  # GitHub secrets sync CLI
-│   ├── eslint.config.cts
-│   ├── vitest.config.ts
-│   └── package.json     # Workspace root (@xenoterracide/share)
 ├── LICENSES/            # SPDX license texts
 ├── .tool-versions       # asdf version definitions
 ├── git-conventional-commits.yaml
-├── renovate.json5       # Root Renovate configuration
 ├── REUSE.toml           # REUSE compliance configuration
 ├── pyproject.toml       # Python project configuration
 └── uv.lock              # Python dependency lockfile
@@ -265,9 +224,8 @@ reuse annotate --copyright 'Caleb Cushing' --license 'CC-BY-NC-SA-4.0' <file>
 
 ## Important Notes
 
-- Run `cd .share && yarn test` before merging (root `yarn test` does not execute workspace tests)
 - Ensure all files have proper SPDX license headers
 - Follow conventional commit format for all commits
 - Use `git config core.hooksPath .config/git/hooks` to enable git hooks
 - PR descriptions become the squash merge commit message — format them accordingly
-- AI attribution should be added as `Co-authored-by` trailers in commit messages
+- AI attribution should be added as `Assisted-by: <AI_NAME>:<MODEL_VERSION>` trailers in commit messages

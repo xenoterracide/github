@@ -10,12 +10,16 @@ Reusable GitHub Actions workflows for CI/CD automation.
 
 ## Available Workflows
 
-| Workflow        | File              | Purpose                                                                                                                                                                                                                                                                  |
-| --------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Prettier**    | `prettier.yml`    | Code formatting check (Prettier)                                                                                                                                                                                                                                         |
-| **License**     | `license.yml`     | REUSE compliance verification                                                                                                                                                                                                                                            |
-| **Node CLI**    | `node-cli.yml`    | Smoke test for the asdf Node.js toolchain. Installs Node.js via `asdf-vm/actions/install` (mirroring local dev environments) to verify that `.tool-versions` updates do not break Yarn-installed developer tools (`prettier`, `lint-staged`, `git-conventional-commits`) |
-| **Update Java** | `update-java.yml` | Automated Java/Gradle dependency updates                                                                                                                                                                                                                                 |
+| Workflow        | File              | Purpose                                    |
+| --------------- | ----------------- | ------------------------------------------ |
+| **Ktlint**      | `ktlint.yml`      | Kotlin formatting check for Gradle scripts |
+| **License**     | `license.yml`     | REUSE compliance verification              |
+| **Maven**       | `maven.yml`       | Maven build                                |
+| **Prettier**    | `prettier.yml`    | Code formatting check (Prettier)           |
+| **Update Java** | `update-java.yml` | Automated Java/Gradle dependency updates   |
+| **Yarn**        | `yarn.yml`        | Yarn check (runs `yarn check`)             |
+
+`regression-devtool-*.yml` are push-triggered smoke tests for this repository's own developer tools, not reusable.
 
 ## Usage
 
@@ -43,8 +47,8 @@ uv sync --frozen
 ### Testing
 
 ```bash
-# Run all checks
-yarn test
+# Run all lint checks (prettier + REUSE)
+yarn lint
 
 # Check formatting
 yarn exec prettier --ignore-unknown --check '**'
