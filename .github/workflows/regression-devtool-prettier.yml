@@ -17,7 +17,7 @@ jobs:
           restore-keys: asdf-${{ runner.os }}-
       - uses: asdf-vm/actions/install@v4.0.1
       - run: printf 'nodejs %s\n' "$(awk '/^nodejs/ { print $2 }' .tool-versions)" > "$HOME/.tool-versions"
-      - uses: pnpm/action-setup@v6.1.0
+      - uses: pnpm/action-setup@v6.1.1
         with:
           cache: true
       - run: pnpm install --frozen-lockfile
