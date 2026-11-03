@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright © 2024 - 2026 Caleb Cushing
+# SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -9,7 +9,7 @@ SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = "yarn.lock"
+path = "pnpm-lock.yaml"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 

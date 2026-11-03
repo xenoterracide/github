@@ -4,7 +4,7 @@
 
 uv.lock
 .venv/
-.yarn/
+pnpm-lock.yaml
 .gradle/
 node_modules/
 build/
