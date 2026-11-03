@@ -9,6 +9,10 @@
   lockFileMaintenance: {
     enabled: true,
     automerge: true,
+    // the default window ("before 4am on monday") never coincided with the
+    // hosted app's runs for this repo, so maintenance never fired and
+    // uv.lock went stale; a daily window runs far more often
+    schedule: ["before 4am"],
   },
   timezone: "UTC",
   platformAutomerge: true,
@@ -41,6 +45,15 @@
       extends: ["helpers:pinGitHubActionDigests"],
       branchTopic: "{{{depNameSanitized}}}-{{{newDigest}}}",
       automerge: true,
+    },
+    {
+      // the branchTopic rules above also match lock file maintenance
+      // updates (npm and pep621 each generate one) and render an empty
+      // topic, naming the branch "renovate" and colliding across managers;
+      // rules override the lockFileMaintenance object, so restore the
+      // default topic here, after them
+      matchUpdateTypes: ["lockFileMaintenance"],
+      branchTopic: "lock-file-maintenance",
     },
   ],
 }
