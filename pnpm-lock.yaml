@@ -344,8 +344,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@xml-tools/parser@1.0.11':
-    resolution: {integrity: sha512-aKqQ077XnR+oQtHJlrAflaZaL7qZsulWc/i/ZEooar5JiWj1eLt0+Wg28cpa+XLney107wXqneC+oG1IZvxkTA==}
+  '@xml-tools/parser@1.0.12':
+    resolution: {integrity: sha512-YNIPbmr/7ClPpWyk0MLImLBLyVLgW+BeOkbd4UDp8w0tCcgU8lmA4karXBF9EQwaQzDTzaBbJtmSA0G2NKKlPA==}
 
   ansi-regex@5.0.1:
     resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
@@ -369,8 +369,8 @@ packages:
   color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
 
-  dot-properties@1.1.1:
-    resolution: {integrity: sha512-2Pog+JtvYuFFmV9Dm1VA1yphW7DYyn41MHLhnzuviUlLFbRF2uxmh8sE+IbhcgogcUcmtmpzHzzebmeT7YEAXA==}
+  dot-properties@1.1.2:
+    resolution: {integrity: sha512-ePbFJ3EVLXRFAwR91iSEMEvn9erYIPCPGP4Ly+/eaU4tRwoPuOcNsPed36V3RsQUOmkpwIVSCiQWXQelfbvBAA==}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==}
@@ -464,11 +464,6 @@ packages:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
     engines: {node: '>=10'}
 
-  yaml@2.9.0:
-    resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
-    engines: {node: '>= 14.6'}
-    hasBin: true
-
   yaml@2.9.1:
     resolution: {integrity: sha512-3NxN8+78OdzbT7C/WjGsyfPAtJaN3FNDsWxv7Y7mcDsT/oOmgW8BpyQQFFBnvZE3j9Y2Sdz1ULFLezL7Eb2yFw==}
     engines: {node: '>= 14.6'}
@@ -478,15 +473,15 @@ packages:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
     engines: {node: '>=12'}
 
-  yargs@17.7.2:
-    resolution: {integrity: sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==}
+  yargs@17.7.3:
+    resolution: {integrity: sha512-GZtjxm/J/4TSxuL3FNYjCmLktBTnIw/rVmKSIyKeYAZpmJB2ig9VauCC5xsa82GNKVKDAqpOn3KVzNt0zmrU0g==}
     engines: {node: '>=12'}
 
 snapshots:
 
   '@prettier/plugin-xml@3.4.2(prettier@3.9.10)':
     dependencies:
-      '@xml-tools/parser': 1.0.11
+      '@xml-tools/parser': 1.0.12
       prettier: 3.9.10
 
   '@tombit/binding-android-arm-eabi@0.1.7':
@@ -558,7 +553,7 @@ snapshots:
   '@tombit/binding-win32-x64-msvc@0.1.7':
     optional: true
 
-  '@xml-tools/parser@1.0.11':
+  '@xml-tools/parser@1.0.12':
     dependencies:
       chevrotain: 7.1.1
 
@@ -584,7 +579,7 @@ snapshots:
 
   color-name@1.1.4: {}
 
-  dot-properties@1.1.1: {}
+  dot-properties@1.1.2: {}
 
   emoji-regex@8.0.0: {}
 
@@ -594,8 +589,8 @@ snapshots:
 
   git-conventional-commits@2.9.0:
     dependencies:
-      yaml: 2.9.0
-      yargs: 17.7.2
+      yaml: 2.9.1
+      yargs: 17.7.3
 
   is-fullwidth-code-point@3.0.0: {}
 
@@ -618,7 +613,7 @@ snapshots:
 
   prettier-plugin-properties@0.3.1(prettier@3.9.10):
     dependencies:
-      dot-properties: 1.1.1
+      dot-properties: 1.1.2
       prettier: 3.9.10
 
   prettier-plugin-toml@4.1.0(prettier@3.9.10):
@@ -684,14 +679,11 @@ snapshots:
 
   y18n@5.0.8: {}
 
-  yaml@2.9.0: {}
-
-  yaml@2.9.1:
-    optional: true
+  yaml@2.9.1: {}
 
   yargs-parser@21.1.1: {}
 
-  yargs@17.7.2:
+  yargs@17.7.3:
     dependencies:
       cliui: 8.0.1
       escalade: 3.2.0
