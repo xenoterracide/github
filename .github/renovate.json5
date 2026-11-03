@@ -51,9 +51,11 @@
       // updates and render an empty topic, naming the branch "renovate"
       // instead of "renovate/lock-file-maintenance"; rules override the
       // lockFileMaintenance object, so restore the default topic here,
-      // after them
+      // after them; negative priority defers maintenance behind
+      // dependency-update PRs within a run
       matchUpdateTypes: ["lockFileMaintenance"],
       branchTopic: "lock-file-maintenance",
+      prPriority: -1,
     },
   ],
 }
