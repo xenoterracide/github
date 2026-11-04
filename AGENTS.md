@@ -26,15 +26,21 @@ This is **`github-workflows`**, a repository maintained by Caleb Cushing that pr
 ### Essential Commands
 
 ```bash
-# Initial setup (run after cloning or when lockfile changes)
-pnpm precontribute   # installs corepack and pnpm dependencies
-pnpm contribute      # syncs Python deps and enables git hooks
+# Initial setup (run after cloning or when the toolchain changes)
+pnpm contribute      # heals via .config/git/hooks/heal.sh
 
 # Run all lint checks (prettier + REUSE)
 pnpm lint
 ```
 
+`pnpm contribute`, direnv's `.envrc`, and the git hooks all heal through
+`.config/git/hooks/heal.sh`. Without direnv or pnpm, run it directly with
+`sh .config/git/hooks/heal.sh`.
+
 ### Dependency Management
+
+`heal.sh` runs these when their lockfiles change — from the hooks on
+checkout and merge, from `.envrc` on direnv entry:
 
 ```bash
 # Install Node.js dependencies from lockfile
@@ -166,7 +172,7 @@ reuse lint
 
 ### Secrets and Environment
 
-- `.envrc` runs `asdf install`
+- `.envrc` and the git hooks heal the toolchain via `.config/git/hooks/heal.sh`
 - Never commit secrets or `.env` files
 - AI-generated PR messages avoid exposing sensitive diff content
 - `update-java.yml` requires `GRADLE_ENCRYPTION_KEY` and `MERGE_PAT` secrets
@@ -176,7 +182,7 @@ reuse lint
 ```
 .
 ├── .config/
-│   └── git/hooks/       # Git hooks (pre-commit, commit-msg, post-merge, post-checkout)
+│   └── git/hooks/       # Git hooks (pre-commit, commit-msg, post-merge, post-checkout) and heal.sh
 ├── .github/
 │   ├── workflows/       # Reusable GitHub workflows (prettier, license, ktlint, maven,
 │   │                     pnpm, update-java) and regression-devtool-* smoke tests

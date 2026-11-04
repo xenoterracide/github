@@ -13,13 +13,10 @@
     "prettier-plugin-toml": "^4.0.0"
   },
   "scripts": {
-    "contribute": "uv sync --frozen && git config core.hooksPath .config/git/hooks",
+    "contribute": "sh .config/git/hooks/heal.sh",
     "lint": "pnpm lint:prettier && pnpm lint:reuse",
     "lint:prettier": "prettier --ignore-unknown --cache --check '**'",
     "lint:reuse": "pnpm reuse lint",
-    "precontribute": "pnpm setup:corepack && pnpm setup:pnpm",
-    "reuse": "uv run --frozen --group dev reuse",
-    "setup:corepack": "npm install --global corepack && corepack enable --install-directory ~/.local/bin",
-    "setup:pnpm": "pnpm install --frozen-lockfile"
+    "reuse": "uv run --frozen --group dev reuse"
   }
 }
