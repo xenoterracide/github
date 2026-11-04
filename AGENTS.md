@@ -81,14 +81,16 @@ Git hooks are located in `.config/git/hooks/`:
 
 **Post-operation hooks:**
 
-- **post-merge**: Auto-runs `pnpm install --frozen-lockfile` and/or `uv sync --frozen` when `pnpm-lock.yaml` or `uv.lock` change after `git pull`
-- **post-checkout**: Auto-runs `pnpm install --frozen-lockfile` and/or `uv sync --frozen` when lockfiles differ between branches
+- **post-merge / post-checkout**: run `heal.sh` once when `.tool-versions`,
+  `pnpm-lock.yaml`, or `uv.lock` changed between revisions
 
 To enable hooks:
 
 ```bash
 git config core.hooksPath .config/git/hooks
 ```
+
+`heal.sh` sets this itself; direnv entry and `pnpm contribute` both run it.
 
 ### lint-staged Configuration
 
