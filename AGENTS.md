@@ -26,9 +26,8 @@ This is **`github-workflows`**, a repository maintained by Caleb Cushing that pr
 ### Essential Commands
 
 ```bash
-# Initial setup (run after cloning or when lockfile changes)
-pnpm precontribute   # installs corepack and pnpm dependencies
-pnpm contribute      # syncs Python deps and enables git hooks
+# Initial setup (run after cloning or when the toolchain changes)
+pnpm contribute
 
 # Run all lint checks (prettier + REUSE)
 pnpm lint
@@ -75,14 +74,16 @@ Git hooks are located in `.config/git/hooks/`:
 
 **Post-operation hooks:**
 
-- **post-merge**: Auto-runs `pnpm install --frozen-lockfile` and/or `uv sync --frozen` when `pnpm-lock.yaml` or `uv.lock` change after `git pull`
-- **post-checkout**: Auto-runs `pnpm install --frozen-lockfile` and/or `uv sync --frozen` when lockfiles differ between branches
+- **post-merge / post-checkout**: run `heal.sh` once when `.tool-versions`,
+  `pnpm-lock.yaml`, or `uv.lock` changed between revisions
 
 To enable hooks:
 
 ```bash
 git config core.hooksPath .config/git/hooks
 ```
+
+`heal.sh` sets this itself; direnv entry and `pnpm contribute` both run it.
 
 ### lint-staged Configuration
 
@@ -166,7 +167,7 @@ reuse lint
 
 ### Secrets and Environment
 
-- `.envrc` runs `asdf install`
+- `.envrc` and the git hooks heal the toolchain via `.config/git/hooks/heal.sh`
 - Never commit secrets or `.env` files
 - AI-generated PR messages avoid exposing sensitive diff content
 - `update-java.yml` requires `GRADLE_ENCRYPTION_KEY` and `MERGE_PAT` secrets
@@ -176,7 +177,7 @@ reuse lint
 ```
 .
 ├── .config/
-│   └── git/hooks/       # Git hooks (pre-commit, commit-msg, post-merge, post-checkout)
+│   └── git/hooks/       # Git hooks (pre-commit, commit-msg, post-merge, post-checkout) and heal.sh
 ├── .github/
 │   ├── workflows/       # Reusable GitHub workflows (prettier, license, ktlint, maven,
 │   │                     pnpm, update-java) and regression-devtool-* smoke tests
