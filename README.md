@@ -4,11 +4,9 @@ SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
 SPDX-License-Identifier: CC-BY-NC-SA-4.0
 -->
 
-<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+<!-- SPDX-License-Identifier: CC-BY-NC-SA-4.0 -->
 
 # github-workflows
-
-<!-- Body below: CC-BY-NC-SA-4.0 -->
 
 Reusable GitHub Actions workflows for CI/CD automation.
 
@@ -25,7 +23,7 @@ Reusable GitHub Actions workflows for CI/CD automation.
 | **Update Java** | `update-java.yml` | Automated Java/Gradle dependency updates   |
 
 `regression-devtool-*.yml` are smoke tests that install the calling project and
-verify its devtools; five repositories call them via `devtools-regression.yml`,
+verify their devtools; five repositories call them via `devtools-regression.yml`,
 and they also run on push here.
 
 ## Usage
