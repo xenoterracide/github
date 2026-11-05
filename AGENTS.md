@@ -27,15 +27,11 @@ This is **`github-workflows`**, a repository maintained by Caleb Cushing that pr
 
 ```bash
 # Initial setup (run after cloning or when the toolchain changes)
-pnpm contribute      # heals via .config/git/hooks/heal.sh
+pnpm contribute
 
 # Run all lint checks (prettier + REUSE)
 pnpm lint
 ```
-
-Everything — `pnpm contribute`, direnv's `.envrc`, and the hooks — heals
-through `.config/git/hooks/heal.sh`. Never sync dependencies or tool
-versions by hand; if the healer has not run, `sh .config/git/hooks/heal.sh`.
 
 ### Dependency Management
 
