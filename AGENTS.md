@@ -33,14 +33,11 @@ pnpm contribute      # heals via .config/git/hooks/heal.sh
 pnpm lint
 ```
 
-`pnpm contribute`, direnv's `.envrc`, and the git hooks all heal through
-`.config/git/hooks/heal.sh`. Without direnv or pnpm, run it directly with
-`sh .config/git/hooks/heal.sh`.
+Everything — `pnpm contribute`, direnv's `.envrc`, and the hooks — heals
+through `.config/git/hooks/heal.sh`. Never sync dependencies or tool
+versions by hand; if the healer has not run, `sh .config/git/hooks/heal.sh`.
 
 ### Dependency Management
-
-`heal.sh` runs these when their lockfiles change — from the hooks on
-checkout and merge, from `.envrc` on direnv entry:
 
 ```bash
 # Install Node.js dependencies from lockfile
