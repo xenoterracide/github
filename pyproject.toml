@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: CC0-1.0
 
 [project]
-name = "github-workflows"
+name = "github"
 version = "0.1.0"
-description = "Local tooling configuration for this repository's GitHub workflows."
+description = "github-workflows"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = []

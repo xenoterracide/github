@@ -4,7 +4,11 @@ SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
 SPDX-License-Identifier: CC-BY-NC-SA-4.0
 -->
 
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+
 # github-workflows
+
+<!-- Body below: CC-BY-NC-SA-4.0 -->
 
 Reusable GitHub Actions workflows for CI/CD automation.
 
@@ -12,14 +16,17 @@ Reusable GitHub Actions workflows for CI/CD automation.
 
 | Workflow        | File              | Purpose                                    |
 | --------------- | ----------------- | ------------------------------------------ |
+| **Copier**      | `copier.yml`      | Render and verify a copier template        |
 | **Ktlint**      | `ktlint.yml`      | Kotlin formatting check for Gradle scripts |
 | **License**     | `license.yml`     | REUSE compliance verification              |
 | **Maven**       | `maven.yml`       | Maven build                                |
 | **Prettier**    | `prettier.yml`    | Code formatting check (Prettier)           |
-| **Update Java** | `update-java.yml` | Automated Java/Gradle dependency updates   |
 | **Pnpm**        | `pnpm.yml`        | pnpm check (runs `pnpm run check`)         |
+| **Update Java** | `update-java.yml` | Automated Java/Gradle dependency updates   |
 
-`regression-devtool-*.yml` are smoke tests that install the calling project and verify its devtools; five repositories call them via `devtools-regression.yml`, and they also run on push here.
+`regression-devtool-*.yml` are smoke tests that install the calling project and
+verify its devtools; five repositories call them via `devtools-regression.yml`,
+and they also run on push here.
 
 ## Usage
 
@@ -31,38 +38,23 @@ jobs:
     uses: xenoterracide/github/.github/workflows/prettier.yml@develop
 ```
 
-## Development
+## Getting started
 
-### Setup
+- `pnpm contribute` installs tools and dependencies, and heals the toolchain
+  through `.config/git/hooks/heal.sh`.
+- `direnv allow` (if you use direnv) loads the environment.
 
-```bash
-# Enable git hooks for formatting and license compliance
-git config core.hooksPath .config/git/hooks
+This project is managed with [copier](https://copier.readthedocs.io). To
+refresh from the template:
 
-# Install dependencies
-pnpm install
-uv sync --frozen
-```
-
-### Testing
-
-```bash
-# Run all lint checks (prettier + REUSE)
-pnpm lint
-
-# Check formatting
-pnpm exec prettier --ignore-unknown --check '**'
-
-# Fix formatting
-pnpm exec prettier --ignore-unknown --write '**'
-
-# Check REUSE compliance
-reuse lint
-```
+    copier update --trust
 
 ## AI Agent Skills
 
-This repository uses skills from [xenoterracide/agent-skills](https://github.com/xenoterracide/agent-skills), a Kimi Code plugin providing AI coding agent capabilities for Java, Gradle, GitHub, and development workflows.
+This repository uses skills from
+[xenoterracide/agent-skills](https://github.com/xenoterracide/agent-skills), a
+Kimi Code plugin providing AI coding agent capabilities for Java, Gradle,
+GitHub, and development workflows.
 
 ## License
 

@@ -1,0 +1,31 @@
+<!--
+SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+
+SPDX-License-Identifier: CC-BY-NC-SA-4.0
+-->
+
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+
+# Contributing to github-workflows
+
+## Bootstrap
+
+    git clone <repo-url>
+    cd <project>
+    pnpm contribute
+
+## Linting and testing
+
+    pnpm check
+
+## Updating from the template
+
+    copier update --trust
+
+Conflicts appear as `.rej` files; resolve and commit.
+
+## License header conventions
+
+All files carry SPDX headers. The template bakes headers into `.jinja` sources
+so generated projects are REUSE-compliant from the first commit. User-authored
+files are annotated by the pre-commit hook via `reuse annotate`.

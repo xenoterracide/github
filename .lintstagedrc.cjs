@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+const shfmt = "shfmt --write";
 const prettier = "prettier --cache --ignore-unknown --write";
 const reuse = "uv run --frozen --group dev reuse annotate";
 const copyright = "--copyright 'Caleb Cushing' --merge-copyrights";
@@ -12,13 +13,15 @@ const licenseConfiguration = "--license 'CC0-1.0' --fallback-dot-license";
 const licenseDocumentation = "--license 'CC-BY-NC-SA-4.0'";
 const licenseScripts = "--license 'MIT' --fallback-dot-license";
 
-const withoutLockfile = (files) =>
-  files.filter((file) => file !== "pnpm-lock.yaml" && !file.endsWith("/pnpm-lock.yaml"));
+// pnpm-lock.yaml and the maven wrapper properties are generated; header
+// comments and formatting break them
+const withoutGenerated = (files) =>
+  files.filter((file) => !/(^|\/)(pnpm-lock\.yaml|maven-wrapper\.properties)$/.test(file));
 
 const withFiles = (command, files) => `${command} ${files.map((file) => `"${file.replace(/"/g, '\\"')}"`).join(" ")}`;
 
 const run = (commands) => (files) => {
-  const filtered = withoutLockfile(files);
+  const filtered = withoutGenerated(files);
 
   if (!filtered.length) {
     return [];
@@ -29,20 +32,24 @@ const run = (commands) => (files) => {
 };
 
 module.exports = {
-  // should change per repo
-  "*.{ts,java}": run([`${reuse} ${copyright} ${symbol} ${licenseCode}`, prettier]),
-
   "!(package).json": run([`${reuse} ${copyright} ${symbol} ${licenseConfiguration}`, prettier]),
+  // package.json can contain logic via the scripts segment
   "package.json": run([`${reuse} ${copyright} ${symbol} ${licenseScripts}`, prettier]),
-
-  Makefile: run([`${reuse} ${copyright} ${symbol} ${licenseScripts}`]),
-  "{.config/git/hooks/**,**/*.sh}": run([`${reuse} ${copyright} ${symbol} ${licenseScripts} --style python`, prettier]),
+  "{.config/git/hooks/**,**/*.*sh}": run([`${reuse} ${copyright} ${symbol} ${licenseScripts} --style python`, shfmt]),
   "*.{md,adoc}": run([`${reuse} ${copyright} ${symbol} ${licenseDocumentation}`, prettier]),
-  "*.{xml,yaml,properties,toml,json5,js}": run([`${reuse} ${copyright} ${licenseConfiguration} ${symbol}`, prettier]),
+  "*.{xml,yaml,properties,toml,json5}": run([`${reuse} ${copyright} ${licenseConfiguration} ${symbol}`, prettier]),
+  // yml is different from yaml extension as the only known yaml required file is for git-conventional-commits, but yml
+  // contains files like GitHub workflows which can have significant logic
   "*.{js,cjs,yml}": run([`${reuse} ${copyright} ${symbol} ${licenseScripts}`, prettier]),
   ".{*ignore,editorconfig,gitattributes,mailmap}": run([
     `${reuse} ${copyright} ${symbol} ${licenseConfiguration}`,
     prettier,
   ]),
+  // JetBrains obnoxiously assume that properties files aren't utf8 by default, and so to avoid rendering issues we
+  // avoid adding the Unicode copyright symbol
   "*.properties": run([`${reuse} ${copyright} ${licenseConfiguration}`, prettier]),
+  // TypeScript code
+  "*.ts": run([`${reuse} ${copyright} ${symbol} ${licenseCode}`, prettier]),
+  // Java code
+  "*.java": run([`${reuse} ${copyright} ${symbol} ${licenseCode}`, prettier]),
 };
