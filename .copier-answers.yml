@@ -1,12 +1,13 @@
-# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+# SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
 #
-# SPDX-License-Identifier: CC0-1.0
 # SPDX-License-Identifier: MIT
-_commit: f3fe5dc
+_commit: 0ae6a55
 _src_path: .
 copyright_holder: Caleb Cushing
+copyright_year: 2024-2026
 include_skeleton: false
 license: GPL-3.0-or-later
+npm_scope: "@xenoterracide"
 project_name: github
 project_title: github-workflows
 template_type: config

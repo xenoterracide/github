@@ -1,5 +1,5 @@
 {
-  "name": "github",
+  "name": "@xenoterracide/github",
   "packageManager": "pnpm@12.16.1",
   "private": true,
   "license": "GPL-3.0-or-later",
