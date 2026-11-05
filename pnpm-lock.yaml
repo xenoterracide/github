@@ -396,8 +396,8 @@ packages:
     engines: {node: '>=22.22.1'}
     hasBin: true
 
-  napi-postinstall@0.3.7:
-    resolution: {integrity: sha512-jyU4cU4kVAmy/3qjP+DcoQTNXfINHc+dFw54gGqWC8nu0mpV0kOnk7kff+J+Q18SbX0k3Np8Rm7yFjd3phatNQ==}
+  napi-postinstall@0.3.8:
+    resolution: {integrity: sha512-dHbDC5V1g/EI8OLEtL4Iuwbu0fgzmyykxenn2KnlsX9XdhTXL3gWnfbbP+ab+oUcgV6CFpb8QGyQt/ZXA0UXig==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     hasBin: true
 
@@ -602,7 +602,7 @@ snapshots:
     optionalDependencies:
       yaml: 2.9.1
 
-  napi-postinstall@0.3.7: {}
+  napi-postinstall@0.3.8: {}
 
   picomatch@4.0.7: {}
 
@@ -643,7 +643,7 @@ snapshots:
 
   tombit@0.1.7:
     dependencies:
-      napi-postinstall: 0.3.7
+      napi-postinstall: 0.3.8
     optionalDependencies:
       '@tombit/binding-android-arm-eabi': 0.1.7
       '@tombit/binding-android-arm64': 0.1.7
