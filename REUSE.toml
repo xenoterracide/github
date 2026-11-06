@@ -1,13 +1,8 @@
-# SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
+# SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
 #
 # SPDX-License-Identifier: CC0-1.0
 
 version = 1
-
-[[annotations]]
-path = ".gitmodules"
-SPDX-FileCopyrightText = "NONE"
-SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
 path = "**/*.lockfile"
@@ -25,11 +20,11 @@ SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ".python-version"
+path = "uv.lock"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = "uv.lock"
+path = ".python-version"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "CC0-1.0"

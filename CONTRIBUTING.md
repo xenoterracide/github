@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
+SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
 
 SPDX-License-Identifier: CC-BY-NC-SA-4.0
 -->
@@ -22,8 +22,7 @@ SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
 Conflicts appear as `.rej` files; resolve and commit.
 
-## License header conventions
+## License headers
 
-All files carry SPDX headers. The template bakes headers into `.jinja` sources
-so generated projects are REUSE-compliant from the first commit. User-authored
-files are annotated by the pre-commit hook via `reuse annotate`.
+The template renders no SPDX headers. `reuse annotate`, run at the first
+commit, stamps each file's license.
