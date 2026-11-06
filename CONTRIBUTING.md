@@ -1,0 +1,28 @@
+<!--
+SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+
+SPDX-License-Identifier: CC-BY-NC-SA-4.0
+-->
+
+# Contributing to github-workflows
+
+## Bootstrap
+
+    git clone <repo-url>
+    cd <project>
+    pnpm contribute
+
+## Linting and testing
+
+    pnpm check
+
+## Updating from the template
+
+    copier update --trust
+
+Conflicts appear as `.rej` files; resolve and commit.
+
+## License headers
+
+The template renders no SPDX headers. `reuse annotate`, run at the first
+commit, stamps each file's license.

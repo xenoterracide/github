@@ -2,12 +2,13 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
+.superpowers/
+pnpm-lock.yaml
 uv.lock
 .venv/
-pnpm-lock.yaml
-.gradle/
 node_modules/
 build/
 .idea/
-gradlew*
-gradle/wrapper/*
+mvnw*
+.mvn/wrapper/*
+coverage/

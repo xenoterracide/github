@@ -2,7 +2,7 @@
   "name": "@xenoterracide/github",
   "packageManager": "pnpm@12.18.0",
   "private": true,
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@prettier/plugin-xml": "^3.4.2",
     "git-conventional-commits": "^2.8.0",
@@ -13,10 +13,13 @@
     "prettier-plugin-toml": "^4.0.0"
   },
   "scripts": {
+    "check": "pnpm lint:prettier",
     "contribute": "sh .config/git/hooks/heal.sh",
-    "lint": "pnpm lint:prettier && pnpm lint:reuse",
     "lint:prettier": "prettier --ignore-unknown --cache --check '**'",
-    "lint:reuse": "pnpm reuse lint",
-    "reuse": "uv run --frozen --group dev reuse"
+    "lint:reuse": "pnpm reuse download --all && pnpm reuse lint",
+    "precontribute": "pnpm setup:corepack",
+    "reuse": "uv run --frozen --group dev reuse",
+    "setup:corepack": "npm install --global corepack && corepack enable --install-directory ~/.local/bin",
+    "lint": "pnpm lint:prettier && pnpm lint:reuse"
   }
 }
