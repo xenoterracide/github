@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: MIT
 
 # Managed by copier; do not edit. Run `copier update` to refresh.
-_commit: "7613969"
-_src_path: .
+_commit: v26.11.0
+_src_path: https://github.com/xenoterracide/base-template
 copyright_holder: Caleb Cushing
 include_skeleton: false
 license: GPL-3.0-or-later
