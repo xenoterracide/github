@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
+SPDX-FileCopyrightText: Copyright © 2015-2026 Caleb Cushing
 
 SPDX-License-Identifier: CC-BY-NC-SA-4.0
 -->
@@ -44,6 +44,10 @@ This project is managed with [copier](https://copier.readthedocs.io). To
 refresh from the template:
 
     copier update --trust
+
+Renovate opens an update PR whenever
+[base-template](https://github.com/xenoterracide/base-template) tags a
+release. Merge it like any other dependency update.
 
 ## AI Agent Skills
 
