@@ -1,9 +1,5 @@
 <!--
-<<<<<<< before updating
-SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
-=======
 SPDX-FileCopyrightText: Copyright © 2015-2026 Caleb Cushing
->>>>>>> after updating
 
 SPDX-License-Identifier: CC-BY-NC-SA-4.0
 -->
@@ -49,6 +45,10 @@ refresh from the template:
 
     copier update --trust
 
+Renovate opens an update PR whenever
+[base-template](https://github.com/xenoterracide/base-template) tags a
+release. Merge it like any other dependency update.
+
 ## AI Agent Skills
 
 This repository uses skills from
@@ -58,13 +58,5 @@ GitHub, and development workflows.
 
 ## License
 
-<<<<<<< before updating
 This repository uses [REUSE](https://reuse.software/) for license compliance.
 See individual files for their SPDX license identifiers.
-=======
-    copier update --trust
-
-Renovate opens an update PR whenever
-[base-template](https://github.com/xenoterracide/base-template) tags a
-release. Merge it like any other dependency update.
->>>>>>> after updating
