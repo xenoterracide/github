@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: MIT
 
 # Managed by copier; do not edit. Run `copier update` to refresh.
-_commit: v26.11.0
+_commit: v26.11.1
 _src_path: https://github.com/xenoterracide/base-template
 copyright_holder: Caleb Cushing
 include_skeleton: false
 license: GPL-3.0-or-later
-npm_scope: "@xenoterracide"
+npm_scope: '@xenoterracide'
 project_name: github
 project_title: github-workflows
 template_type: config
 use_opencode: false
+
