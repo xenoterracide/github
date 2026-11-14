@@ -8,7 +8,14 @@ SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
 Reusable GitHub Actions workflows for CI/CD automation.
 
+<<<<<<< before updating
 ## Available Workflows
+=======
+- `npm run contribute` installs tools and dependencies, and heals the
+  toolchain through `.config/git/hooks/heal.sh`. Node 25+ drops corepack,
+  so the bootstrap starts from npm.
+- `direnv allow` (if you use direnv) loads the environment.
+>>>>>>> after updating
 
 | Workflow        | File              | Purpose                                    |
 | --------------- | ----------------- | ------------------------------------------ |
@@ -43,7 +50,7 @@ jobs:
 This project is managed with [copier](https://copier.readthedocs.io). To
 refresh from the template:
 
-    copier update --trust
+    uv run --group dev copier update --trust
 
 Renovate opens an update PR whenever
 [base-template](https://github.com/xenoterracide/base-template) tags a
