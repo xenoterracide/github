@@ -28,7 +28,7 @@ jobs:
           node-version: 26.13.1
       # no `cache: maven` — it aborts the job when the checkout has no
       # pom.xml, and a template repo keeps its pom inside the render
-      - uses: actions/setup-java@v6.2.0
+      - uses: actions/setup-java@v6.3.0
         if: inputs.variant == 'java'
         with:
           distribution: temurin
