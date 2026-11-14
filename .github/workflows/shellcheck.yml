@@ -15,4 +15,4 @@ jobs:
           key: asdf-${{ runner.os }}-${{ hashFiles('.tool-versions') }}
           restore-keys: asdf-${{ runner.os }}-
       - uses: asdf-vm/actions/install@v4.0.1
-      - run: shellcheck $(git ls-files '*.sh' '.envrc' ':(glob)**/git/hooks/*')
+      - run: git ls-files -z -- '*.sh' '.envrc' ':(glob)**/git/hooks/*' | xargs -0 shellcheck
