@@ -8,14 +8,7 @@ SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
 Reusable GitHub Actions workflows for CI/CD automation.
 
-<<<<<<< before updating
 ## Available Workflows
-=======
-- `npm run contribute` installs tools and dependencies, and heals the
-  toolchain through `.config/git/hooks/heal.sh`. Node 25+ drops corepack,
-  so the bootstrap starts from npm.
-- `direnv allow` (if you use direnv) loads the environment.
->>>>>>> after updating
 
 | Workflow        | File              | Purpose                                    |
 | --------------- | ----------------- | ------------------------------------------ |
@@ -43,8 +36,9 @@ jobs:
 
 ## Getting started
 
-- `pnpm contribute` installs tools and dependencies, and heals the toolchain
-  through `.config/git/hooks/heal.sh`.
+- `npm run contribute` installs tools and dependencies, and heals the
+  toolchain through `.config/git/hooks/heal.sh`. Node 25+ drops corepack,
+  so the bootstrap starts from npm.
 - `direnv allow` (if you use direnv) loads the environment.
 
 This project is managed with [copier](https://copier.readthedocs.io). To
