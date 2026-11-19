@@ -32,5 +32,5 @@ jobs:
         if: inputs.variant == 'java'
         with:
           distribution: temurin
-          java-version: 25.0.5+8.0.LTS
+          java-version: 25.0.5+100000002.0.LTS
       - run: ./tests/verify.sh "${{ inputs.variant }}"
