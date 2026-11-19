@@ -8,16 +8,18 @@ SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
 ## Build and Test
 
-- `pnpm contribute` — bootstrap tooling (run once after clone)
-- `pnpm check` — run all checks
-- `pnpm lint:prettier` — prettier check
-- `pnpm lint:reuse` — REUSE compliance check
+- `npm run contribute` — bootstrap tooling (run once after clone)
+- `pnpm lint` — the pre-push set: prettier, shellcheck, reuse, plus
+  eslint (TypeScript) or checkstyle + spotbugs via Maven (java)
+- `pnpm check` — lint
+- `pnpm lint:reuse` — REUSE check alone; the first commit's pre-commit
+  hook seeds `LICENSES`
 
 ## Source of Truth
 
 - Template: `copier.yml` in [xenoterracide/base-template](https://github.com/xenoterracide/base-template)
 - Answers: `.copier-answers.yml` in this repo
-- Updates: `copier update --trust` refreshes from template
+- Updates: `uv run --group dev copier update --trust` refreshes from template
 - Hooks heal the toolchain: `.envrc`, `contribute`, and the post hooks call
   `.config/git/hooks/heal.sh`. A failed heal never breaks a checkout.
 
