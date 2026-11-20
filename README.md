@@ -44,7 +44,7 @@ jobs:
 This project is managed with [copier](https://copier.readthedocs.io). To
 refresh from the template:
 
-    uv run --group dev copier update --trust
+    uvx copier update --trust
 
 Renovate opens an update PR whenever
 [base-template](https://github.com/xenoterracide/base-template) tags a
