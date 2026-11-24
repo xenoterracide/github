@@ -3,12 +3,15 @@
 # SPDX-License-Identifier: MIT
 
 # Managed by copier; do not edit. `uvx copier update --trust` refreshes.
-_commit: v26.11.14
+_commit: v26.11.16
 _src_path: https://github.com/xenoterracide/base-template
+docs_license: CC-BY-NC-SA-4.0
 include_skeleton: false
 license: GPL-3.0-or-later
 npm_scope: '@xenoterracide'
 project_name: github
+project_purpose: github-workflows is a config project.
 project_title: github-workflows
+project_usage: Copy the configuration files into your project and adjust the values.
 template_type: config
 
