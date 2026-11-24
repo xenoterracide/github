@@ -6,6 +6,7 @@ SPDX-License-Identifier: CC-BY-NC-SA-4.0
 
 # github-workflows
 
+<<<<<<< before updating
 Reusable GitHub Actions workflows for CI/CD automation.
 
 ## Available Workflows
@@ -35,17 +36,31 @@ jobs:
 ```
 
 ## Getting started
+=======
+github-workflows is a config project.
+>>>>>>> after updating
 
-- `npm run contribute` installs tools and dependencies, and heals the
-  toolchain through `.config/git/hooks/heal.sh`. Node 25+ drops corepack,
-  so the bootstrap starts from npm.
-- `direnv allow` (if you use direnv) loads the environment.
+## Use
 
+<<<<<<< before updating
 This project is managed with [copier](https://copier.readthedocs.io). To
 refresh from the template:
+=======
+Copy the configuration files into your project and adjust the values.
 
-    uvx copier update --trust
+## Install
 
+Copy the configuration files you need into your project.
+
+## Development
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) — human contributor guide
+- [AGENTS.md](AGENTS.md) — guide for AI agents
+>>>>>>> after updating
+
+## License
+
+<<<<<<< before updating
 Renovate opens an update PR whenever
 [base-template](https://github.com/xenoterracide/base-template) tags a
 release. Merge it like any other dependency update.
@@ -61,3 +76,9 @@ GitHub, and development workflows.
 
 This repository uses [REUSE](https://reuse.software/) for license compliance.
 See individual files for their SPDX license identifiers.
+=======
+Project code: [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.txt).
+Documentation: [CC-BY-NC-SA-4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+Copyright © 2015-2026 Caleb Cushing. Full texts live in [LICENSES](LICENSES).
+Each file carries its own SPDX header. A file may use a different license.
+>>>>>>> after updating

@@ -21,6 +21,7 @@
     "precontribute": "npm run setup:corepack",
     "reuse": "uv run --frozen --group dev reuse",
     "setup:corepack": "npm install --global corepack && mkdir -p ~/.local/bin && corepack enable --install-directory ~/.local/bin",
-    "lint": "pnpm lint:prettier && pnpm lint:shellcheck && pnpm lint:reuse"
+    "lint": "pnpm lint:prettier && pnpm lint:shellcheck && pnpm lint:reuse",
+    "verify": "pnpm check"
   }
 }
